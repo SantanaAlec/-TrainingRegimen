@@ -26,7 +26,7 @@ CREATE TABLE `regimenes_estados` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `entrenador_id` int NOT NULL,
-  `estado` int NOT NULL,
+  `estado` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `entrenador_id_idx` (`entrenador_id`),
   CONSTRAINT `entrenador_id` FOREIGN KEY (`entrenador_id`) REFERENCES `usuarios` (`id`)
@@ -53,7 +53,7 @@ CREATE TABLE `usuarios` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
-  `tipo` int NOT NULL,
+  `tipo` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -76,4 +76,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-30 16:13:38
+-- Dump completed on 2023-10-30 17:39:46
