@@ -20,8 +20,9 @@ public class RegimenEstado {
     @Column(name = "nombre", nullable=false)
     private String nombre;
     
-    @Column(name = "entrenador_id", nullable=false)
-    private Integer entrenador_id;
+    @OneToOne
+    //@Column(name = "entrenador_id", nullable=false)
+    private Usuario entrenador;
     
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable=false)
@@ -30,17 +31,17 @@ public class RegimenEstado {
     public RegimenEstado() {
     }
 
-    public RegimenEstado(String nombre, Integer entrenador_id, Estado estado) {
+    public RegimenEstado(String nombre, Usuario entrenador, Estado estado) {
         this.nombre = nombre;
-        this.entrenador_id = entrenador_id;
+        this.entrenador = entrenador;
         this.estado = estado;
     }
 
     
-    public RegimenEstado(int id, String nombre, int entrenador_id, Estado estado) {
+    public RegimenEstado(int id, String nombre, Usuario entrenador, Estado estado) {
         this.id = id;
         this.nombre = nombre;
-        this.entrenador_id = entrenador_id;
+        this.entrenador= entrenador;
         this.estado = estado;
     }
 
@@ -60,12 +61,12 @@ public class RegimenEstado {
         this.nombre = nombre;
     }
 
-    public int getEntrenador_id() {
-        return entrenador_id;
+    public Usuario getEntrenador_id() {
+        return entrenador;
     }
 
-    public void setEntrenador_id(int entrenador_id) {
-        this.entrenador_id = entrenador_id;
+    public void setEntrenador(Usuario entrenador) {
+        this.entrenador= entrenador;
     }
 
     public Estado getEstado() {
@@ -98,7 +99,12 @@ public class RegimenEstado {
         if (this.id != other.id) {
             return false;
         }
-        return this.entrenador_id == other.entrenador_id;
+        return this.entrenador == other.entrenador;
+    }
+
+    @Override
+    public String toString() {
+        return "RegimenEstado{" + "id=" + id + ", nombre=" + nombre + ", entrenador=" + entrenador + ", estado=" + estado + '}';
     }
     
     
