@@ -14,10 +14,10 @@ import javax.persistence.Persistence;
  * @author Andrea
  */
 public class ConexionBD implements IConexionBD{
-
+    private final EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("PRegimenes");
     @Override
     public EntityManager crearConexion() throws IllegalThreadStateException {
-        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("PRegimenes");
+    
         EntityManager em = emFactory.createEntityManager();
         return em;
     }

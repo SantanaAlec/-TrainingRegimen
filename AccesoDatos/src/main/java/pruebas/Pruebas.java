@@ -40,21 +40,27 @@ public class Pruebas {
         em.getTransaction().begin();
          
          //PROBANDO DAO USUARIOS
-//         Usuario usuario= new Usuario("Sandra Lopez", "4321", TipoUsuario.ENTRENADOR);
+//         Usuario usuario= new Usuario("Rosa Salazar", "4321", TipoUsuario.ADMIN);
 //         usuariosDAO.agregar(usuario);
 //         System.out.println(usuariosDAO.consultar(1));
 //         System.out.println(usuariosDAO.consultarTodos().toString());
 //         System.out.println(usuariosDAO.consultar("Jose Lopez"));
-//         usuariosDAO.actualizar(new Usuario(1,"Jose Lopez","0000",TipoUsuario.ENTRENADOR)); //no funciona 
+          //usuariosDAO.actualizar(new Usuario(2,"Maria Rodriguez","pass1234",TipoUsuario.ENTRENADOR)); 
+          //    usuariosDAO.eliminar(5);
            
    
          //PROBANDO DAO REGIMENES ESTADOS
-//         Usuario usuarioTest = new Usuario();
-//         usuarioTest.setId(2);
-//         RegimenEstado estado = new RegimenEstado("regimen voleybol",usuarioTest, Estado.NO_APROBADO);
+         Usuario usuarioTest = new Usuario();
+         usuarioTest.setId(4);
+//         RegimenEstado estado = new RegimenEstado("regimen beisbol",usuarioTest, Estado.NO_APROBADO);
 //         regimenEstadoDAO.agregar(estado);
-//         System.out.println(regimenEstadoDAO.consultar(2));
-//         System.out.println(regimenEstadoDAO.consultarTodos().toString());
+         System.out.println(regimenEstadoDAO.consultar(2));
+         System.out.println(regimenEstadoDAO.consultarTodos().toString());
+         System.out.println(regimenEstadoDAO.consultarPorEntrenador(1));
+//         RegimenEstado r2 = regimenEstadoDAO.consultar(2);
+//         r2.setEstado(Estado.APROVADO);
+//         regimenEstadoDAO.actualizar(r2);
+           //regimenEstadoDAO.eliminar(4);
         
     }
     

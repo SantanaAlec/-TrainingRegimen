@@ -15,5 +15,7 @@ public interface IRegimenEstadoDAO {
     public void agregar(RegimenEstado regimenEstado);
     public void actualizar(RegimenEstado regimenEstado);
     public RegimenEstado consultar(Integer idRegimenEstado);
+    public void eliminar(Integer idRegimenEstado);
+    public RegimenEstado consultarPorEntrenador(Integer idEntrenador);
     public List<RegimenEstado> consultarTodos();
 }
