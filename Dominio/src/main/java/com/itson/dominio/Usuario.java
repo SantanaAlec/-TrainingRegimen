@@ -1,7 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// Copyright (c) Andrea Salazar Abigail Cárdenas, Alec Demian Santana Celaya, 
+// Carlos Ariel Angulo Campos, Josue Emamnuel Flores Carballo, 
+// Jesus Alejandro Izaguirre Gil. Licensed under the MIT Licence.
+// See the LICENSE file in the repository root for full license text.
 package com.itson.dominio;
 
 import java.util.Objects;
@@ -14,27 +14,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- *
- * @author Andrea
- */
 @Entity
-@Table(name="usuarios")
+@Table(name = "usuarios")
 public class Usuario {
-    
+
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
-    @Column(name = "nombre", nullable=false)
+
+    @Column(name = "nombre", nullable = false)
     private String nombre;
-    
-    @Column(name = "password", nullable=false)
+
+    @Column(name = "password", nullable = false)
     private String password;
-    
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo", nullable=false)
+    @Column(name = "tipo", nullable = false)
     private TipoUsuario tipo;
 
     public Usuario() {
@@ -46,7 +42,6 @@ public class Usuario {
         this.tipo = tipo;
     }
 
-    
     public Usuario(Integer id, String nombre, String password, TipoUsuario tipo) {
         this.id = id;
         this.nombre = nombre;
@@ -118,7 +113,5 @@ public class Usuario {
     public String toString() {
         return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", tipo=" + tipo + '}';
     }
-    
-    
-    
+
 }

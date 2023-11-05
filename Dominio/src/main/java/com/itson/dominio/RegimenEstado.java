@@ -1,31 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
+// Copyright (c) Andrea Salazar Abigail Cárdenas, Alec Demian Santana Celaya, 
+// Carlos Ariel Angulo Campos, Josue Emamnuel Flores Carballo, 
+// Jesus Alejandro Izaguirre Gil. Licensed under the MIT Licence.
+// See the LICENSE file in the repository root for full license text.
 package com.itson.dominio;
+
 import java.util.Objects;
 import javax.persistence.*;
-/**
- *
- * @author Andrea
- */
+
 @Entity
-@Table(name="regimenes_estados")
+@Table(name = "regimenes_estados")
 public class RegimenEstado {
+
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
-    @Column(name = "nombre", nullable=false)
+
+    @Column(name = "nombre", nullable = false)
     private String nombre;
-    
+
     @OneToOne
     //@Column(name = "entrenador_id", nullable=false)
     private Usuario entrenador;
-    
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado", nullable=false)
+    @Column(name = "estado", nullable = false)
     private Estado estado;
 
     public RegimenEstado() {
@@ -37,11 +36,10 @@ public class RegimenEstado {
         this.estado = estado;
     }
 
-    
     public RegimenEstado(int id, String nombre, Usuario entrenador, Estado estado) {
         this.id = id;
         this.nombre = nombre;
-        this.entrenador= entrenador;
+        this.entrenador = entrenador;
         this.estado = estado;
     }
 
@@ -66,7 +64,7 @@ public class RegimenEstado {
     }
 
     public void setEntrenador(Usuario entrenador) {
-        this.entrenador= entrenador;
+        this.entrenador = entrenador;
     }
 
     public Estado getEstado() {
@@ -106,6 +104,5 @@ public class RegimenEstado {
     public String toString() {
         return "RegimenEstado{" + "id=" + id + ", nombre=" + nombre + ", entrenador=" + entrenador + ", estado=" + estado + '}';
     }
-    
-    
+
 }
