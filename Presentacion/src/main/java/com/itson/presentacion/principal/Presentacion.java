@@ -2,7 +2,9 @@
 // Carlos Ariel Angulo Campos, Josue Emamnuel Flores Carballo, 
 // Jesus Alejandro Izaguirre Gil. Licensed under the MIT Licence.
 // See the LICENSE file in the repository root for full license text.
-package com.mycompany.presentacion;
+package com.itson.presentacion.principal;
+
+import com.itson.presentacion.nuevoRegimen.DefinirEtapas;
 
 public class Presentacion {
 
