@@ -1,5 +1,8 @@
 # Ignore target from Dominio Project
 /Dominio/target/
 
+# Ignore target from Presentation Project
+/Presentacion/target/
+
 # Ignore the DB personal Configs
 persistence.xml
