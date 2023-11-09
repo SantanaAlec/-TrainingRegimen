@@ -13,10 +13,10 @@ import java.util.List;
  * @author Andrea
  */
 public interface IUsuariosDAO {
-    public void agregar(Usuario usuario);
-    public void eliminar(Integer idUsuario);
-    public void actualizar(Usuario usuario);
-    public Usuario consultar(Integer idUsuario);
-    public Usuario consultar(String nombre);
-    public List<Usuario> consultarTodos();
+    public void agregar(Usuario usuario) throws Exception ;
+    public void eliminar(Integer idUsuario) throws Exception ;
+    public void actualizar(Usuario usuario) throws Exception ;
+    public Usuario consultar(Integer idUsuario) throws Exception ;
+    public Usuario consultar(String nombre)throws Exception ;
+    public List<Usuario> consultarTodos()throws Exception ;
 }

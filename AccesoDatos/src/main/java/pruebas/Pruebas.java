@@ -20,6 +20,9 @@ import implementaciones.UsuariosDAO;
 import interfaces.IConexionBD;
 import interfaces.IRegimenDAO;
 import interfaces.IUsuariosDAO;
+import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Pruebas {
 
@@ -27,45 +30,51 @@ public class Pruebas {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        try {
+            // TODO code application logic here
 
-        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("PRegimenes");
-        EntityManager em = emFactory.createEntityManager();
+            EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("PRegimenes");
+            EntityManager em = emFactory.createEntityManager();
 
-        IConexionBD conexion = new ConexionBD();
-        IRegimenEstadoDAO regimenEstadoDAO = new RegimenEstadoDAO(conexion);
-        IUsuariosDAO usuariosDAO = new UsuariosDAO(conexion);
+            IConexionBD conexion = new ConexionBD();
+            IRegimenEstadoDAO regimenEstadoDAO = new RegimenEstadoDAO(conexion);
+            IUsuariosDAO usuariosDAO = new UsuariosDAO(conexion);
 
-        em.getTransaction().begin();
+            em.getTransaction().begin();
 
-        //PROBANDO DAO USUARIOS
+            //PROBANDO DAO USUARIOS
 //         Usuario usuario= new Usuario("Rosa Salazar", "4321", TipoUsuario.ADMIN);
 //         usuariosDAO.agregar(usuario);
 //         System.out.println(usuariosDAO.consultar(1));
 //         System.out.println(usuariosDAO.consultarTodos().toString());
 //         System.out.println(usuariosDAO.consultar("Jose Lopez"));
-        //usuariosDAO.actualizar(new Usuario(2,"Maria Rodriguez","pass1234",TipoUsuario.ENTRENADOR)); 
-        //    usuariosDAO.eliminar(5);
-        //PROBANDO DAO REGIMENES ESTADOS
-        Usuario usuarioTest = new Usuario();
-        usuarioTest.setId(4);
+//usuariosDAO.actualizar(new Usuario(2,"Maria Rodriguez","pass1234",TipoUsuario.ENTRENADOR));
+//    usuariosDAO.eliminar(5);
+//PROBANDO DAO REGIMENES ESTADOS
+            Usuario usuarioTest = new Usuario();
+            usuarioTest.setId(4);
 //         RegimenEstado estado = new RegimenEstado("regimen beisbol",usuarioTest, Estado.NO_APROBADO);
 //         regimenEstadoDAO.agregar(estado);
-        System.out.println(regimenEstadoDAO.consultar(2));
-        System.out.println(regimenEstadoDAO.consultarTodos().toString());
-        System.out.println(regimenEstadoDAO.consultarPorEntrenador(1));
+            System.out.println(regimenEstadoDAO.consultar(2));
+            System.out.println(regimenEstadoDAO.consultarTodos().toString());
+            System.out.println(regimenEstadoDAO.consultarPorEntrenador(1));
 //         RegimenEstado r2 = regimenEstadoDAO.consultar(2);
 //         r2.setEstado(Estado.APROVADO);
 //         regimenEstadoDAO.actualizar(r2);
-        //regimenEstadoDAO.eliminar(4);
+//regimenEstadoDAO.eliminar(4);
 
-        //PROBANDO DAO REGIMENES
-        Regimen regimen = new Regimen(usuarioTest, usuarioTest, "JUDO", null, null);
-        IRegimenDAO regimenDAO = new RegimenDAO();
-        regimenDAO.guardar(regimen);
+//PROBANDO DAO REGIMENES
+            Regimen regimen = new Regimen(usuarioTest, usuarioTest, "JUDO", null, null);
+            regimen.setFechaFinal(LocalDate.of(2023, 12, 20));
+            regimen.setFechaInicio(LocalDate.of(2023, 06, 20));
+            IRegimenDAO regimenDAO = new RegimenDAO();
+            regimenDAO.guardar(regimen);
 
-        Regimen regimenConsultado = regimenDAO.consultar();
-        System.out.println(regimenConsultado.toString());
+            Regimen regimenConsultado = regimenDAO.consultar();
+            System.out.println(regimenConsultado.toString());
+        } catch (Exception ex) {
+            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

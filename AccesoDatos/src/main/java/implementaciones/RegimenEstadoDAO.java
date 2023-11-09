@@ -16,108 +16,110 @@ import javax.persistence.TypedQuery;
  *
  * @author Andrea
  */
-public class RegimenEstadoDAO implements IRegimenEstadoDAO{
- 
+public class RegimenEstadoDAO implements IRegimenEstadoDAO {
 
     private final IConexionBD conexionBD;
     public RegimenEstadoDAO(IConexionBD conexionBD) {
         this.conexionBD=conexionBD;
     }
-   
+
     @Override
-    public void agregar(RegimenEstado regimenEstado) {
-        
-        EntityManager em =this.conexionBD.crearConexion();
-        
-        try{
-        em.getTransaction().begin();
-        if(regimenEstado!=null){
-            em.persist(regimenEstado);
-        }
-        em.getTransaction().commit();
-        }
-        finally{
+    public void agregar(RegimenEstado regimenEstado) throws Exception {
+
+        EntityManager em = this.conexionBD.crearConexion();
+
+        try {
+            em.getTransaction().begin();
+            if (regimenEstado != null) {
+                em.persist(regimenEstado);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Ocurrio algun error");
+        } finally {
             em.close();
         }
     }
-    
-    @Override
-    public void eliminar(Integer idRegimenEstado) {
-        
-        EntityManager em =this.conexionBD.crearConexion();
-        
-        try{
-        em.getTransaction().begin();
-        RegimenEstado rEncontrado = em.find(RegimenEstado.class, idRegimenEstado);
 
-        if(rEncontrado!=null){
-            em.remove(rEncontrado);
-        }
-        em.getTransaction().commit();
-        }
-        finally{
+    @Override
+    public void eliminar(Integer idRegimenEstado) throws Exception {
+
+        EntityManager em = this.conexionBD.crearConexion();
+
+        try {
+            em.getTransaction().begin();
+            RegimenEstado rEncontrado = em.find(RegimenEstado.class, idRegimenEstado);
+
+            if (rEncontrado != null) {
+                em.remove(rEncontrado);
+            } else {
+                throw new Exception("El regimen que quiere eliminar no existe");
+            }
+            em.getTransaction().commit();
+        } finally {
             em.close();
         }
     }
-    
 
     @Override
-    public void actualizar(RegimenEstado regimenEstado) {
-        EntityManager em =this.conexionBD.crearConexion();
-        
-        try{
-        if (regimenEstado != null) {
+    public void actualizar(RegimenEstado regimenEstado) throws Exception {
+        EntityManager em = this.conexionBD.crearConexion();
+
+        try {
+            if (regimenEstado != null) {
                 em.getTransaction().begin();
                 RegimenEstado rEncontrado = em.find(RegimenEstado.class, regimenEstado.getId());
                 if (rEncontrado != null) {
                     em.merge(regimenEstado);
+                } else {
+                    throw new Exception("El regimen que quiere actualizar no existe");
                 }
                 em.getTransaction().commit();
             }
-        }
-        finally{
+        } finally {
             em.close();
         }
-        
+
     }
 
     @Override
-    public RegimenEstado consultar(Integer idRegimenEstado) {
-        EntityManager em =this.conexionBD.crearConexion();
-        
-        try{
-        em.getTransaction().begin();
-        RegimenEstado estado = em.find(RegimenEstado.class, idRegimenEstado);
-        em.getTransaction().commit();
-        return estado;
-        }
-        finally{
+    public RegimenEstado consultar(Integer idRegimenEstado) throws Exception {
+        EntityManager em = this.conexionBD.crearConexion();
+
+        try {
+            em.getTransaction().begin();
+            RegimenEstado estado = em.find(RegimenEstado.class, idRegimenEstado);
+            em.getTransaction().commit();
+            if (estado == null) {
+                throw new Exception("El regimen que quiere consultar no existe");
+            }
+            return estado;
+        } finally {
             em.close();
         }
     }
 
     @Override
     public List<RegimenEstado> consultarTodos() {
-        EntityManager em =this.conexionBD.crearConexion();
-        
-        try{
-              em.getTransaction().begin();
-        Query query = em.createQuery("SELECT r FROM RegimenEstado r",RegimenEstado.class);
-        em.getTransaction().commit();
-        return query.getResultList();
-        }
-        finally{
+        EntityManager em = this.conexionBD.crearConexion();
+
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT r FROM RegimenEstado r", RegimenEstado.class);
+            em.getTransaction().commit();
+            return query.getResultList();
+        } finally {
             em.close();
         }
-        
+
     }
 
     @Override
-    public RegimenEstado consultarPorEntrenador(Integer idEntrenador) {
+    public RegimenEstado consultarPorEntrenador(Integer idEntrenador) throws Exception {
 
-        EntityManager em =this.conexionBD.crearConexion();
-        
-        try {
+        EntityManager em = this.conexionBD.crearConexion();
+
+         try {
             em.getTransaction().begin();
             String jpql = "SELECT re FROM RegimenEstado re WHERE re.entrenador.id = :entrenadorId";
             TypedQuery<RegimenEstado> query = em.createQuery(jpql, RegimenEstado.class);
@@ -125,12 +127,12 @@ public class RegimenEstadoDAO implements IRegimenEstadoDAO{
             em.getTransaction().commit();
             List<RegimenEstado> usuarios = query.getResultList();
             if (usuarios.isEmpty()) {
-                return null;
+                throw new Exception("Ocurrio algun error al consultar por entrenador");
             }
             return (RegimenEstado) query.getResultList().get(0);
         } finally {
             em.close();
         }
     }
-    
+
 }

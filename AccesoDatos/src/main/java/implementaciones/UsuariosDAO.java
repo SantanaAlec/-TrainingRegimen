@@ -25,10 +25,14 @@ public class UsuariosDAO implements IUsuariosDAO {
     }
 
     @Override
-    public void agregar(Usuario usuario) {
+    public void agregar(Usuario usuario) throws Exception {
         EntityManager em = this.conexionBD.crearConexion();
         try {
-
+            //Si se quiere agregar un usuario que ya existe
+            Usuario usuarioEncontrado = em.find(Usuario.class, usuario);
+            if (usuarioEncontrado != null) {
+                throw new Exception("El usuario que quiere agregar ya existe");
+            }
             em.getTransaction().begin();
             em.persist(usuario);
             em.getTransaction().commit();
@@ -39,7 +43,7 @@ public class UsuariosDAO implements IUsuariosDAO {
     }
 
     @Override
-    public void eliminar(Integer idUsuario) {
+    public void eliminar(Integer idUsuario) throws Exception {
 
         EntityManager em = this.conexionBD.crearConexion();
         try {
@@ -47,6 +51,8 @@ public class UsuariosDAO implements IUsuariosDAO {
             Usuario usuario = em.find(Usuario.class, idUsuario);
             if (usuario != null) {
                 em.remove(usuario);
+            } else {
+                throw new Exception("Se quiere eliminar un usuario que no existe");
             }
             em.getTransaction().commit();
         } finally {
@@ -56,7 +62,7 @@ public class UsuariosDAO implements IUsuariosDAO {
     }
 
     @Override
-    public void actualizar(Usuario usuario) {
+    public void actualizar(Usuario usuario) throws Exception {
         EntityManager em = this.conexionBD.crearConexion();
 
         try {
@@ -66,6 +72,8 @@ public class UsuariosDAO implements IUsuariosDAO {
 
                 if (usuarioEncontrado != null) {
                     em.merge(usuario);
+                } else {
+                    throw new Exception("El usuario que quiere actualizar no existe");
                 }
                 em.getTransaction().commit();
             }
@@ -76,14 +84,16 @@ public class UsuariosDAO implements IUsuariosDAO {
     }
 
     @Override
-    public Usuario consultar(Integer idUsuario) {
+    public Usuario consultar(Integer idUsuario) throws Exception {
 
         EntityManager em = this.conexionBD.crearConexion();
         try {
             em.getTransaction().begin();
             Usuario usuario = em.find(Usuario.class, idUsuario);
             em.getTransaction().commit();
-
+            if (usuario == null) {
+                throw new Exception("El usuario que quiere consultar, no existe");
+            }
             return usuario;
         } finally {
             em.close();
@@ -92,7 +102,7 @@ public class UsuariosDAO implements IUsuariosDAO {
     }
 
     @Override
-    public List<Usuario> consultarTodos() {
+    public List<Usuario> consultarTodos() throws Exception {
 
         EntityManager em = this.conexionBD.crearConexion();
         try {
@@ -108,7 +118,7 @@ public class UsuariosDAO implements IUsuariosDAO {
     }
 
     @Override
-    public Usuario consultar(String nombre) {
+    public Usuario consultar(String nombre) throws Exception {
         EntityManager em = this.conexionBD.crearConexion();
 
         try {
@@ -119,7 +129,7 @@ public class UsuariosDAO implements IUsuariosDAO {
             em.getTransaction().commit();
             List<Usuario> usuarios = query.getResultList();
             if (usuarios.isEmpty()) {
-                return null;
+                throw new Exception("No existe el usuario con el nombre que diste");
             }
             return (Usuario) query.getResultList().get(0);
         } finally {

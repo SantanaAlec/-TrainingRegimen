@@ -1,3 +1,4 @@
+utils\LocalDateAdapter.class
 implementaciones\UsuariosDAO.class
 implementaciones\RegimenDAO.class
 interfaces\IUsuariosDAO.class

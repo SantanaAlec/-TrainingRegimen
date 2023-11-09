@@ -12,10 +12,10 @@ import java.util.List;
  * @author Andrea
  */
 public interface IRegimenEstadoDAO {
-    public void agregar(RegimenEstado regimenEstado);
-    public void actualizar(RegimenEstado regimenEstado);
-    public RegimenEstado consultar(Integer idRegimenEstado);
-    public void eliminar(Integer idRegimenEstado);
-    public RegimenEstado consultarPorEntrenador(Integer idEntrenador);
-    public List<RegimenEstado> consultarTodos();
+    public void agregar(RegimenEstado regimenEstado) throws Exception ;
+    public void actualizar(RegimenEstado regimenEstado) throws Exception ;
+    public RegimenEstado consultar(Integer idRegimenEstado) throws Exception ;
+    public void eliminar(Integer idRegimenEstado) throws Exception ;
+    public RegimenEstado consultarPorEntrenador(Integer idEntrenador) throws Exception ;
+    public List<RegimenEstado> consultarTodos() throws Exception ;
 }

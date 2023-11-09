@@ -7,6 +7,6 @@ package interfaces;
 import com.itson.dominio.Regimen;
 
 public interface IRegimenDAO {
-    public void guardar(Regimen regimen);
-    public Regimen consultar();
+    public void guardar(Regimen regimen) throws Exception;
+    public Regimen consultar() throws Exception;
 }
