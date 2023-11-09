@@ -4,6 +4,7 @@
 // See the LICENSE file in the repository root for full license text.
 package com.itson.dominio;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Regimen {
@@ -11,9 +12,16 @@ public class Regimen {
     private Integer id;
     private Usuario entrenador;
     private Usuario metodologo;
+    private Usuario jefeRama;
+    private String Rama;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFinal;
     private String deporte;
     private List<Etapa> etapas;
     private List<Medio> medios;
+
+    public Regimen() {
+    }
 
     public Regimen(Integer id, Usuario entrenador, Usuario metodologo, String deporte, List<Etapa> etapas, List<Medio> medios) {
         this.id = id;
@@ -23,6 +31,19 @@ public class Regimen {
         this.etapas = etapas;
         this.medios = medios;
     }
+
+    public Regimen(Integer id, Usuario entrenador, Usuario metodologo, LocalDate fechaInicio, LocalDate fechaFinal, String deporte, List<Etapa> etapas, List<Medio> medios) {
+        this.id = id;
+        this.entrenador = entrenador;
+        this.metodologo = metodologo;
+        this.fechaInicio = fechaInicio;
+        this.fechaFinal = fechaFinal;
+        this.deporte = deporte;
+        this.etapas = etapas;
+        this.medios = medios;
+    }
+    
+    
 
     public Regimen(Usuario entrenador, Usuario metodologo, String deporte, List<Etapa> etapas, List<Medio> medios) {
         this.entrenador = entrenador;
@@ -64,6 +85,24 @@ public class Regimen {
         this.deporte = deporte;
     }
 
+    public Usuario getJefeRama() {
+        return jefeRama;
+    }
+
+    public void setJefeRama(Usuario jefeRama) {
+        this.jefeRama = jefeRama;
+    }
+
+    public String getRama() {
+        return Rama;
+    }
+
+    public void setRama(String Rama) {
+        this.Rama = Rama;
+    }
+    
+    
+
     public List<Etapa> getEtapas() {
         return etapas;
     }
@@ -79,6 +118,24 @@ public class Regimen {
     public void setMedios(List<Medio> medios) {
         this.medios = medios;
     }
+
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public LocalDate getFechaFinal() {
+        return fechaFinal;
+    }
+
+    public void setFechaFinal(LocalDate fechaFinal) {
+        this.fechaFinal = fechaFinal;
+    }
+    
+    
 
     @Override
     public String toString() {
