@@ -1,0 +1,1 @@
+{"entrenador":{"nombre":"Carlos","password":"123","tipo":"ADMIN"},"metodologo":{"nombre":"Benjamin Murrieta"},"jefeRama":{"nombre":"Jose Lopez"},"Rama":"Varonil","fechaInicio":"2023-11-09","fechaFinal":"2024-11-01","deporte":"Tenis","etapas":[{"nombre":"General","totalSemanas":2},{"nombre":"Especial","totalSemanas":2},{"nombre":"Competitiva","totalSemanas":2}]}

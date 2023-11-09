@@ -187,6 +187,7 @@ public class DefinirEtapas extends javax.swing.JFrame {
         etapas.add(competitiva);
         DefinirMesociclo mesociclosFrame = new DefinirMesociclo(etapas);
         mesociclosFrame.setVisible(true);
+        FrmCrearNuevoRegimen.setEtapasRegimen(etapas);
         super.dispose();
     }//GEN-LAST:event_CrearButtonActionPerformed
 

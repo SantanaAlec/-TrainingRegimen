@@ -262,6 +262,7 @@ public class DefinirMesociclo extends javax.swing.JFrame {
             // Aqui se envian los mesociclos al regimen
 //        Regimen regimen=new Regimen(mesociclos);
         }
+        this.dispose();
     }//GEN-LAST:event_btnCrearActionPerformed
 
     /**

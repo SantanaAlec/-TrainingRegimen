@@ -4,16 +4,20 @@
  */
 package com.itson.presentacion.principal;
 
+import com.itson.dominio.TipoUsuario;
+import com.itson.dominio.Usuario;
+import com.itson.presentacion.nuevoRegimen.FrmCrearNuevoRegimen;
+
 /**
  *
  * @author usuario
  */
-public class FrmNuevoRegimen extends javax.swing.JFrame {
+public class FrmPrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form FrmNuevoRegimen
      */
-    public FrmNuevoRegimen() {
+    public FrmPrincipal() {
         initComponents();
     }
 
@@ -28,7 +32,7 @@ public class FrmNuevoRegimen extends javax.swing.JFrame {
 
         jTabbedPane3 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnCrearNuevoRegimen = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
@@ -42,9 +46,14 @@ public class FrmNuevoRegimen extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setBackground(new java.awt.Color(5, 109, 182));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Crear nuevo regimen");
+        btnCrearNuevoRegimen.setBackground(new java.awt.Color(5, 109, 182));
+        btnCrearNuevoRegimen.setForeground(new java.awt.Color(255, 255, 255));
+        btnCrearNuevoRegimen.setText("Crear nuevo regimen");
+        btnCrearNuevoRegimen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearNuevoRegimenActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(5, 109, 182));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
@@ -75,7 +84,7 @@ public class FrmNuevoRegimen extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btnCrearNuevoRegimen)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -95,7 +104,7 @@ public class FrmNuevoRegimen extends javax.swing.JFrame {
                     .addComponent(lblEstadoRegimen))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCrearNuevoRegimen, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -110,6 +119,14 @@ public class FrmNuevoRegimen extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnCrearNuevoRegimenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoRegimenActionPerformed
+
+        Usuario usuario= new Usuario("Carlos", "123", TipoUsuario.ADMIN);//usuario de prueba, TODO:lOGIN
+        FrmCrearNuevoRegimen frmCrearNuevoRegimen= new FrmCrearNuevoRegimen(usuario);
+        frmCrearNuevoRegimen.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCrearNuevoRegimenActionPerformed
 
     /**
      * @param args the command line arguments
@@ -128,26 +145,27 @@ public class FrmNuevoRegimen extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmNuevoRegimen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmNuevoRegimen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmNuevoRegimen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmNuevoRegimen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmNuevoRegimen().setVisible(true);
+                new FrmPrincipal().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnCrearNuevoRegimen;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;

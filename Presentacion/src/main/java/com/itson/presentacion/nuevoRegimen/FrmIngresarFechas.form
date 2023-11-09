@@ -70,7 +70,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="cmbFechaInicio" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cmbFechaInicial" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -91,7 +91,7 @@
                   <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <Component id="cmbFechaInicio" min="-2" max="-2" attributes="0"/>
+                      <Component id="cmbFechaInicial" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="36" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -158,6 +158,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Continuar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
@@ -179,9 +182,12 @@
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator2">
         </Component>
-        <Component class="datechooser.beans.DateChooserCombo" name="cmbFechaInicio">
+        <Component class="datechooser.beans.DateChooserCombo" name="cmbFechaInicial">
         </Component>
         <Component class="datechooser.beans.DateChooserCombo" name="cmbFechaFinal">
+          <Events>
+            <EventHandler event="onSelectionChange" listener="datechooser.events.SelectionChangedListener" parameters="datechooser.events.SelectionChangedEvent" handler="cmbFechaFinalOnSelectionChange"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

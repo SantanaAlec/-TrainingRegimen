@@ -4,5 +4,8 @@
 # Ignore target from Presentation Project
 /Presentacion/target/
 
+# Ignore target from Acceso a datos Project
+/AccesoDatos/target/
+
 # Ignore the DB personal Configs
 persistence.xml

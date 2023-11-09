@@ -4,14 +4,42 @@
 // See the LICENSE file in the repository root for full license text.
 package com.itson.presentacion.nuevoRegimen;
 
+import com.itson.dominio.Etapa;
+import com.itson.dominio.Regimen;
+import com.itson.dominio.Usuario;
+import implementaciones.Persistencia;
+import implementaciones.RegimenDAO;
+import interfaces.IPersistencia;
+import interfaces.IRegimenDAO;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
+
+    private static Regimen regimen;
+    private Usuario usuarioLogged;
+    private IPersistencia persistencia;
 
     /**
      * Creates new form FrmCrearNuevoRegimen
      */
-    public FrmCrearNuevoRegimen() {
-        initComponents();
+    public FrmCrearNuevoRegimen(Usuario usuarioLogged) {
+        try {
+            initComponents();
+            this.usuarioLogged = usuarioLogged;
+            persistencia = new Persistencia();
+            regimen = new Regimen();
+            regimen.setEntrenador(usuarioLogged);
+            txtEntrenador.setText(usuarioLogged.getNombre());
+            llenarJefesRama();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    ex.getMessage(),
+                    "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -26,18 +54,18 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtEntrenador = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbDeporte = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cmbRama = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnIngresarFechas = new javax.swing.JButton();
+        btnEditarEtapas = new javax.swing.JButton();
+        btnCrear = new javax.swing.JButton();
+        cmbMetodologo = new javax.swing.JComboBox<>();
+        cmbJefeRama = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -57,13 +85,13 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(5, 109, 182));
         jLabel3.setText("Deporte:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbDeporte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Beisbol", "Softbol", "Tenis", "Tenis de Mesa", "Voleibol Playa", "Ajedrez", "Atletismo Lanzamiento", "Atletismo Pista", "Atletismo Saltos", "Baloncesto", "Balonmano", "Boxeo Universitario", "Escalada Deportiva", "Esgrima", "Natación", "Gimnasia aerobica", "Halterofilia", "Judo", "Karate do", "Lucha Universitaria", "Rugby Seven", "Futbol Americano", "Tae Kwon Do", "Futbol Bardas", "Tochito", "Triatlon", "Voleibol Sala" }));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(5, 109, 182));
         jLabel4.setText("Rama: ");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbRama.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Varonil", "Femenil", "Mixto" }));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(5, 109, 182));
@@ -73,20 +101,37 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(5, 109, 182));
         jLabel6.setText("Metodologo:");
 
-        jButton1.setBackground(new java.awt.Color(5, 109, 182));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Ingresar fechas");
+        btnIngresarFechas.setBackground(new java.awt.Color(5, 109, 182));
+        btnIngresarFechas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnIngresarFechas.setForeground(new java.awt.Color(255, 255, 255));
+        btnIngresarFechas.setText("Ingresar fechas");
+        btnIngresarFechas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarFechasActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(5, 109, 182));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Definir etapas");
+        btnEditarEtapas.setBackground(new java.awt.Color(5, 109, 182));
+        btnEditarEtapas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEditarEtapas.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditarEtapas.setText("Definir etapas");
+        btnEditarEtapas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarEtapasActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(5, 109, 182));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Crear");
+        btnCrear.setBackground(new java.awt.Color(5, 109, 182));
+        btnCrear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCrear.setForeground(new java.awt.Color(255, 255, 255));
+        btnCrear.setText("Crear");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
+
+        cmbMetodologo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Benjamin Murrieta", "Jesus Borquez" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -100,25 +145,25 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
-                    .addComponent(jComboBox2, 0, 127, Short.MAX_VALUE)
-                    .addComponent(jTextField3))
+                    .addComponent(txtEntrenador)
+                    .addComponent(cmbRama, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmbMetodologo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(54, 54, 54)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditarEtapas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbJefeRama, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addComponent(cmbDeporte, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnIngresarFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(22, 22, 22))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(251, 251, 251))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(215, 215, 215)
@@ -133,24 +178,24 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbDeporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbRama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbJefeRama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnIngresarFechas)
+                    .addComponent(cmbMetodologo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnEditarEtapas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
 
@@ -159,47 +204,82 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmCrearNuevoRegimen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmCrearNuevoRegimen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmCrearNuevoRegimen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmCrearNuevoRegimen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnIngresarFechasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarFechasActionPerformed
+        FrmIngresarFechas frmIngresarFechas = new FrmIngresarFechas();
+        frmIngresarFechas.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnIngresarFechasActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmCrearNuevoRegimen().setVisible(true);
-            }
-        });
+    private void btnEditarEtapasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarEtapasActionPerformed
+        DefinirEtapas definirEtapas = new DefinirEtapas();
+        definirEtapas.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarEtapasActionPerformed
+
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+
+        if (regimen.getFechaFinal() == null || regimen.getFechaInicio() == null) {
+            JOptionPane.showMessageDialog(this,
+                    "No has elegido las fechas del nuevo régimen",
+                    "Datos incompletos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (regimen.getEtapas() == null) {
+            JOptionPane.showMessageDialog(this,
+                    "No has elegido las etapas del nuevo régimen",
+                    "Datos incompletos", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        Usuario jefeSelected=new Usuario();
+        jefeSelected.setNombre(cmbJefeRama.getSelectedItem().toString());
+        Usuario metodologoSelected=new Usuario();
+        metodologoSelected.setNombre(cmbMetodologo.getSelectedItem().toString());
+
+        regimen.setDeporte(cmbDeporte.getSelectedItem().toString());
+        regimen.setRama(cmbRama.getSelectedItem().toString());
+        regimen.setJefeRama(jefeSelected);
+        regimen.setMetodologo(metodologoSelected);
+        
+        try {
+            persistencia.guardarRegimen(regimen);
+            // TODO: guardar régimen
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    ex.getMessage(),
+                    "Error al crear el régimen", JOptionPane.ERROR_MESSAGE);
+        }
+        finally{
+            this.dispose();
+        }
+        
+
+    }//GEN-LAST:event_btnCrearActionPerformed
+
+    public static void setFechasRegimen(LocalDate fechaInicio, LocalDate fechaFinal) {
+        regimen.setFechaInicio(fechaInicio);
+        regimen.setFechaFinal(fechaFinal);
     }
 
+    public static void setEtapasRegimen(List<Etapa> etapas) {
+        regimen.setEtapas(etapas);
+    }
+
+    public void llenarJefesRama() throws Exception {
+        List<Usuario> personal = persistencia.consultarTodosUsuarios();
+
+        for (int i = 0; i < personal.size(); i++) {
+            cmbJefeRama.addItem(personal.get(i).getNombre());
+        }
+
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JButton btnCrear;
+    private javax.swing.JButton btnEditarEtapas;
+    private javax.swing.JButton btnIngresarFechas;
+    private javax.swing.JComboBox<String> cmbDeporte;
+    private javax.swing.JComboBox<String> cmbJefeRama;
+    private javax.swing.JComboBox<String> cmbMetodologo;
+    private javax.swing.JComboBox<String> cmbRama;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -207,8 +287,6 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField txtEntrenador;
     // End of variables declaration//GEN-END:variables
 }
