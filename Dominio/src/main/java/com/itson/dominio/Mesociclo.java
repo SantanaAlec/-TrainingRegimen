@@ -9,34 +9,18 @@ import java.util.Objects;
 public class Mesociclo {
 
     int noMesociclo;
-    Etapa etapa;
     int noSemanas;
 
-    public Mesociclo(int noMesociclo, Etapa etapa, int noSemanas) {
+    public Mesociclo(int noMesociclo,int noSemanas) {
         this.noMesociclo = noMesociclo;
-        this.etapa = etapa;
         this.noSemanas = noSemanas;
     }
 
-    public Mesociclo(int noMesociclo, Etapa etapa) {
+    public Mesociclo(int noMesociclo) {
         this.noMesociclo = noMesociclo;
-        this.etapa = etapa;
-    }
-    
-    public Mesociclo(Etapa etapa, int noSemanas) {
-        this.etapa = etapa;
-        this.noSemanas = noSemanas;
     }
 
     public Mesociclo() {
-    }
-
-    public Etapa getEtapa() {
-        return etapa;
-    }
-
-    public void setEtapa(Etapa etapa) {
-        this.etapa = etapa;
     }
 
     public int getNoSemanas() {
@@ -59,7 +43,6 @@ public class Mesociclo {
     public int hashCode() {
         int hash = 7;
         hash = 59 * hash + this.noMesociclo;
-        hash = 59 * hash + Objects.hashCode(this.etapa);
         hash = 59 * hash + this.noSemanas;
         return hash;
     }
@@ -79,15 +62,14 @@ public class Mesociclo {
         if (this.noMesociclo != other.noMesociclo) {
             return false;
         }
-        if (this.noSemanas != other.noSemanas) {
-            return false;
-        }
-        return Objects.equals(this.etapa, other.etapa);
+        return this.noSemanas == other.noSemanas;
     }
+
+    
 
     @Override
     public String toString() {
-        return "Mesociclo{" + "noMesociclo=" + noMesociclo + ", etapa=" + etapa + ", noSemanas=" + noSemanas + '}';
+        return "Mesociclo{" + "noMesociclo=" + noMesociclo + ", noSemanas=" + noSemanas + '}';
     }
 
 }

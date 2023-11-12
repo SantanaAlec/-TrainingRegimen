@@ -240,7 +240,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
         jefeSelected.setNombre(cmbJefeRama.getSelectedItem().toString());
         Usuario metodologoSelected=new Usuario();
         metodologoSelected.setNombre(cmbMetodologo.getSelectedItem().toString());
-
+        
         regimen.setDeporte(cmbDeporte.getSelectedItem().toString());
         regimen.setRama(cmbRama.getSelectedItem().toString());
         regimen.setJefeRama(jefeSelected);

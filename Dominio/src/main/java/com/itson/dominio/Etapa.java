@@ -4,6 +4,7 @@
 // See the LICENSE file in the repository root for full license text.
 package com.itson.dominio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Etapa {
@@ -17,18 +18,22 @@ public class Etapa {
         this.nombre = nombre;
         this.totalSemanas = totalSemanas;
         this.mesociclos = mesociclos;
+        mesociclos= new ArrayList<>();
     }
     
     public Etapa(String nombre, int totalSemanas) {
         this.nombre = nombre;
         this.totalSemanas = totalSemanas;
+        mesociclos= new ArrayList<>();
     }
     
     public Etapa(String nombre) {
         this.nombre = nombre;
+        mesociclos= new ArrayList<>();
     }
 
     public Etapa() {
+        mesociclos= new ArrayList<>();
     }
 
     public Etapa(int totalSemanas) {
@@ -59,7 +64,13 @@ public class Etapa {
         this.mesociclos = mesociclos;
     }
 
+    public void addMesociclo(Mesociclo mesociclo){
+        mesociclos.add(mesociclo);
+    }
     
+    public void removeMesociclo(Mesociclo mesociclo){
+        mesociclos.remove(mesociclo);
+    }
 
     @Override
     public String toString() {

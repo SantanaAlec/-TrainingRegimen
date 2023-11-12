@@ -238,17 +238,20 @@ public class DefinirMesociclo extends javax.swing.JFrame {
         int noSemanas = Integer.parseInt(modelo.getValueAt(filas - 1, 1).toString());
         String nombreEtapa = (String) modelo.getValueAt(filas - 1, 2);
         Etapa objEtapa =new Etapa(nombreEtapa,noSemanas);
-        Mesociclo mesociclo1 = new Mesociclo((noMesociclo), objEtapa);
+        Mesociclo mesociclo1 = new Mesociclo((noMesociclo),noSemanas);
         mesociclos.add(mesociclo1);
         switch (nombreEtapa) {
             case "General":
                 general = general + noSemanas;
+                etapas.get(0).addMesociclo(mesociclo1);
                 break;
             case "Especial":
                 especial = especial + noSemanas;
+                etapas.get(1).addMesociclo(mesociclo1);
                 break;
             case "Competitiva":
                 competitiva = competitiva + noSemanas;
+                etapas.get(2).addMesociclo(mesociclo1);
                 break;
         }
 
@@ -289,7 +292,6 @@ public class DefinirMesociclo extends javax.swing.JFrame {
         for (Mesociclo mesociclo : mesociclos) {
             System.out.println("No. Mesociclo: " + mesociclo.getNoMesociclo());
             System.out.println("Semanas: " + mesociclo.getNoSemanas());
-            System.out.println("Etapa: " + mesociclo.getEtapa());
             System.out.println();
             // Aqui se envian los mesociclos al regimen
 //        Regimen regimen=new Regimen(mesociclos);
