@@ -9,16 +9,21 @@ import java.util.Objects;
 public class Mesociclo {
 
     int noMesociclo;
-    String etapa;
+    Etapa etapa;
     int noSemanas;
 
-    public Mesociclo(int noMesociclo, String etapa, int noSemanas) {
+    public Mesociclo(int noMesociclo, Etapa etapa, int noSemanas) {
         this.noMesociclo = noMesociclo;
         this.etapa = etapa;
         this.noSemanas = noSemanas;
     }
 
-    public Mesociclo(String etapa, int noSemanas) {
+    public Mesociclo(int noMesociclo, Etapa etapa) {
+        this.noMesociclo = noMesociclo;
+        this.etapa = etapa;
+    }
+    
+    public Mesociclo(Etapa etapa, int noSemanas) {
         this.etapa = etapa;
         this.noSemanas = noSemanas;
     }
@@ -26,11 +31,11 @@ public class Mesociclo {
     public Mesociclo() {
     }
 
-    public String getEtapa() {
+    public Etapa getEtapa() {
         return etapa;
     }
 
-    public void setEtapa(String etapa) {
+    public void setEtapa(Etapa etapa) {
         this.etapa = etapa;
     }
 

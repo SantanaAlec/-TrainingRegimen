@@ -16,10 +16,12 @@ import javax.swing.table.DefaultTableModel;
 
 public class DefinirMesociclo extends javax.swing.JFrame {
 
+    private int general;
+    private int especial;
+    private int competitiva;
+    private int semanasTotales;
     private List<Etapa> etapas;
-    /**
-     * Creates new form NewJFrame
-     */
+
     private List<Mesociclo> mesociclos = new ArrayList<>();
 
     public DefinirMesociclo() {
@@ -32,11 +34,8 @@ public class DefinirMesociclo extends javax.swing.JFrame {
         if (editor instanceof JSpinner.DefaultEditor) {
             JFormattedTextField textField = ((JSpinner.DefaultEditor) editor).getTextField();
             textField.setEditable(false);
-
         }
-        System.out.println(etapas.get(0).toString());
-        System.out.println(etapas.get(1).toString());
-        System.out.println(etapas.get(2).toString());
+        this.etapas = etapas;
     }
 
     /**
@@ -140,7 +139,7 @@ public class DefinirMesociclo extends javax.swing.JFrame {
                                 .addGap(116, 116, 116)
                                 .addComponent(jLabel5))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(221, 221, 221)
+                        .addGap(241, 241, 241)
                         .addComponent(btnCrear)))
                 .addContainerGap(146, Short.MAX_VALUE))
         );
@@ -163,9 +162,9 @@ public class DefinirMesociclo extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addComponent(btnAñadir, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addComponent(btnCrear)
-                .addGap(25, 25, 25))
+                .addGap(49, 49, 49))
         );
 
         tbtMesociclos.setModel(new javax.swing.table.DefaultTableModel(
@@ -184,6 +183,8 @@ public class DefinirMesociclo extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbtMesociclos.setGridColor(new java.awt.Color(255, 255, 255));
+        tbtMesociclos.setSelectionBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(tbtMesociclos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -236,10 +237,22 @@ public class DefinirMesociclo extends javax.swing.JFrame {
         int noMesociclo = Integer.parseInt(modelo.getValueAt(filas - 1, 0).toString());
         int noSemanas = Integer.parseInt(modelo.getValueAt(filas - 1, 1).toString());
         String nombreEtapa = (String) modelo.getValueAt(filas - 1, 2);
-
-        Mesociclo mesociclo1 = new Mesociclo((noMesociclo), nombreEtapa, noSemanas);
+        Etapa objEtapa =new Etapa(nombreEtapa,noSemanas);
+        Mesociclo mesociclo1 = new Mesociclo((noMesociclo), objEtapa);
         mesociclos.add(mesociclo1);
+        switch (nombreEtapa) {
+            case "General":
+                general = general + noSemanas;
+                break;
+            case "Especial":
+                especial = especial + noSemanas;
+                break;
+            case "Competitiva":
+                competitiva = competitiva + noSemanas;
+                break;
+        }
 
+        semanasTotales = semanasTotales + noSemanas;
     }//GEN-LAST:event_btnAñadirActionPerformed
 
     private void spnNoSemanasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_spnNoSemanasKeyTyped
@@ -249,8 +262,27 @@ public class DefinirMesociclo extends javax.swing.JFrame {
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         // TODO add your handling code here:
+        int semanasGeneral = etapas.get(0).getTotalSemanas();
+        int semanasEspecial = etapas.get(1).getTotalSemanas();
+        int semanasCompetitiva = etapas.get(2).getTotalSemanas();
+        int validarSemanas = semanasGeneral + semanasEspecial + semanasCompetitiva;
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de definir los mesociclos?", "Confirmar", JOptionPane.YES_NO_OPTION);
-
+        if (semanasTotales != validarSemanas) {
+            JOptionPane.showMessageDialog(null, "El número de semanas totales no coinciden con las establecidas en la definicion de etapas", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (general != semanasGeneral) {
+            JOptionPane.showMessageDialog(null, "El número de semanas para la etapa general no coinciden con las establecidas en la definicion de etapas", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (especial != semanasEspecial) {
+            JOptionPane.showMessageDialog(null, "El número de semanas para la etapa especial no coinciden con las establecidas en la definicion de etapas", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (competitiva != semanasCompetitiva) {
+            JOptionPane.showMessageDialog(null, "El número de semanas para la etapa competitiva no coinciden con las establecidas en la definicion de etapas", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         if (confirmacion == JOptionPane.NO_OPTION) {
             return;
         }
@@ -262,7 +294,11 @@ public class DefinirMesociclo extends javax.swing.JFrame {
             // Aqui se envian los mesociclos al regimen
 //        Regimen regimen=new Regimen(mesociclos);
         }
-        this.dispose();
+        JOptionPane.showMessageDialog(null, "Se han creado los mesociclos con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        System.out.println("General: " + general);
+        System.out.println("Especial: " + especial);
+        System.out.println("Competitiva: " + competitiva);
+        super.dispose();
     }//GEN-LAST:event_btnCrearActionPerformed
 
     /**

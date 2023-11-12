@@ -1,23 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+// Copyright (c) Andrea Salazar Abigail Cárdenas, Alec Demian Santana Celaya, 
+// Carlos Ariel Angulo Campos, Josue Emamnuel Flores Carballo, 
+// Jesus Alejandro Izaguirre Gil. Licensed under the MIT Licence.
+// See the LICENSE file in the repository root for full license text.
 package com.itson.presentacion.nuevoRegimen;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
-/**
- *
- * @author usuario
- */
+
 public class FrmIngresarFechas extends javax.swing.JFrame {
-
+    private FrmCrearNuevoRegimen crearNuevoRegimen;
     /**
      * Creates new form FrmIngresarFechas
      */
+    public FrmIngresarFechas(FrmCrearNuevoRegimen crearNuevoRegimen) {
+        this.crearNuevoRegimen = crearNuevoRegimen;
+        initComponents();
+    }
+    
     public FrmIngresarFechas() {
         initComponents();
     }
@@ -178,6 +181,10 @@ public class FrmIngresarFechas extends javax.swing.JFrame {
         }
         System.out.println(fechaFinal.toString()+","+fechaInicio.toString());
         FrmCrearNuevoRegimen.setFechasRegimen(fechaInicio, fechaFinal);
+        long diferenciaTiempo = ChronoUnit.WEEKS.between(fechaInicio, fechaFinal);
+        DefinirEtapas etapasFrame=new DefinirEtapas(diferenciaTiempo);
+        crearNuevoRegimen.recibirDatos(diferenciaTiempo);
+//        etapasFrame.setVisible(true);
         this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed

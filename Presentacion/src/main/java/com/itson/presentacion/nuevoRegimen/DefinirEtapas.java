@@ -18,7 +18,8 @@ public class DefinirEtapas extends javax.swing.JFrame {
      * Creates new form DefinirEtapas
      */
     private List<Etapa> etapas = new ArrayList<>();
-
+    private Long semanasTotal;
+    
     public DefinirEtapas() {
         initComponents();
 
@@ -40,6 +41,29 @@ public class DefinirEtapas extends javax.swing.JFrame {
             textField.setEditable(false);
         }
 
+    }
+    
+    public DefinirEtapas(Long totalSemanas) {
+        initComponents();
+        JComponent general = GeneralSpinner.getEditor();
+        if (general instanceof JSpinner.DefaultEditor) {
+            JFormattedTextField textField = ((JSpinner.DefaultEditor) general).getTextField();
+            textField.setEditable(false);
+        }
+
+        JComponent especial = EspecialSpinner.getEditor();
+        if (especial instanceof JSpinner.DefaultEditor) {
+            JFormattedTextField textField = ((JSpinner.DefaultEditor) especial).getTextField();
+            textField.setEditable(false);
+        }
+
+        JComponent competitiva = CompetitivaSpinner.getEditor();
+        if (competitiva instanceof JSpinner.DefaultEditor) {
+            JFormattedTextField textField = ((JSpinner.DefaultEditor) competitiva).getTextField();
+            textField.setEditable(false);
+        }
+        this.semanasTotal=totalSemanas;
+        System.out.println("asdasdadsad: "+ totalSemanas);
     }
 
     /**
@@ -173,15 +197,20 @@ public class DefinirEtapas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CrearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearButtonActionPerformed
+        System.out.println("EN EL BOTON!!!!!!!: "+semanasTotal);
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de definir las etapas?", "Confirmar", JOptionPane.YES_NO_OPTION);
-
+        
         if (confirmacion == JOptionPane.NO_OPTION) {
             return;
         }
         Etapa general = new Etapa("General", (int) GeneralSpinner.getValue());
         Etapa especial = new Etapa("Especial", (int) EspecialSpinner.getValue());
         Etapa competitiva = new Etapa("Competitiva", (int) CompetitivaSpinner.getValue());
-
+        int validacionTotal=general.getTotalSemanas()+especial.getTotalSemanas()+competitiva.getTotalSemanas();
+        if(semanasTotal!=validacionTotal){
+            JOptionPane.showConfirmDialog(this, "La cantidad de semanas no coincide con el total de semanas del regimen, intentelo de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         etapas.add(general);
         etapas.add(especial);
         etapas.add(competitiva);

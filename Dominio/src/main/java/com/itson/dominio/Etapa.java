@@ -23,6 +23,10 @@ public class Etapa {
         this.nombre = nombre;
         this.totalSemanas = totalSemanas;
     }
+    
+    public Etapa(String nombre) {
+        this.nombre = nombre;
+    }
 
     public Etapa() {
     }
