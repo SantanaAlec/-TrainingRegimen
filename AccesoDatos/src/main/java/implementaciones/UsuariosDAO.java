@@ -4,6 +4,7 @@
  */
 package implementaciones;
 
+import com.itson.dominio.TipoUsuario;
 import com.itson.dominio.Usuario;
 import interfaces.IConexionBD;
 import interfaces.IUsuariosDAO;
@@ -29,10 +30,10 @@ public class UsuariosDAO implements IUsuariosDAO {
         EntityManager em = this.conexionBD.crearConexion();
         try {
             //Si se quiere agregar un usuario que ya existe
-            Usuario usuarioEncontrado = em.find(Usuario.class, usuario);
-            if (usuarioEncontrado != null) {
-                throw new Exception("El usuario que quiere agregar ya existe");
-            }
+//            Usuario usuarioEncontrado = em.find(Usuario.class, usuario.getId());
+//            if (usuarioEncontrado != null) {
+//                throw new Exception("El usuario que quiere agregar ya existe");
+//            }
             em.getTransaction().begin();
             em.persist(usuario);
             em.getTransaction().commit();
@@ -136,6 +137,22 @@ public class UsuariosDAO implements IUsuariosDAO {
             em.close();
         }
 
+    }
+    
+    @Override
+    public List<Usuario> consultarEntrenadores()throws Exception {
+        EntityManager em = this.conexionBD.crearConexion();
+          
+        try {
+            String jpql = "SELECT u FROM Usuario u WHERE u.tipo = :tipo";
+            TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+            query.setParameter("tipo", TipoUsuario.ENTRENADOR);
+            List<Usuario> usuarios = query.getResultList();
+
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
     }
 
 }

@@ -4,9 +4,11 @@
 // See the LICENSE file in the repository root for full license text.
 package com.itson.presentacion.nuevoRegimen;
 
+import com.itson.dominio.Estado;
 import com.itson.dominio.Etapa;
 import com.itson.dominio.Medio;
 import com.itson.dominio.Regimen;
+import com.itson.dominio.RegimenEstado;
 import com.itson.dominio.Usuario;
 import com.itson.presentacion.medios.FrmAñadirMedio;
 import implementaciones.Persistencia;
@@ -252,6 +254,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,
                     "No has elegido las etapas del nuevo régimen",
                     "Datos incompletos", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         Usuario jefeSelected=new Usuario();
@@ -264,8 +267,10 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
         regimen.setJefeRama(jefeSelected);
         regimen.setMetodologo(metodologoSelected);
         
+        RegimenEstado regimenEstado = new RegimenEstado(regimen.getDeporte(), usuarioLogged, Estado.NO_APROBADO);
         try {
             persistencia.guardarRegimen(regimen);
+            persistencia.agregarRegimenEstado(regimenEstado);
             // TODO: guardar régimen
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,
@@ -304,7 +309,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
      * @throws Exception 
      */
     public void llenarJefesRama() throws Exception {
-        List<Usuario> personal = persistencia.consultarTodosUsuarios();
+        List<Usuario> personal = persistencia.consultarEntrenadores();
 
         for (int i = 0; i < personal.size(); i++) {
             cmbJefeRama.addItem(personal.get(i).getNombre());

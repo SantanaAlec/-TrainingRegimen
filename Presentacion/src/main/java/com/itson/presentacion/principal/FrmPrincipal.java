@@ -119,7 +119,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnCrearNuevoRegimenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoRegimenActionPerformed
 
-        Usuario usuario= new Usuario("Carlos", "123", TipoUsuario.ADMIN);//usuario de prueba, TODO:lOGIN
+        Usuario usuario= new Usuario(1,"Carlos", "4321", TipoUsuario.ENTRENADOR);//usuario de prueba, TODO:lOGIN
         FrmCrearNuevoRegimen frmCrearNuevoRegimen= new FrmCrearNuevoRegimen(usuario);
         frmCrearNuevoRegimen.setVisible(true);
         // TODO add your handling code here:

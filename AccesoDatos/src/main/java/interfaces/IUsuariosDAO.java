@@ -19,4 +19,5 @@ public interface IUsuariosDAO {
     public Usuario consultar(Integer idUsuario) throws Exception ;
     public Usuario consultar(String nombre)throws Exception ;
     public List<Usuario> consultarTodos()throws Exception ;
+    public List<Usuario> consultarEntrenadores()throws Exception ;
 }

@@ -43,8 +43,8 @@ public class Pruebas {
             em.getTransaction().begin();
 
             //PROBANDO DAO USUARIOS
-//         Usuario usuario= new Usuario("Rosa Salazar", "4321", TipoUsuario.ADMIN);
-//         usuariosDAO.agregar(usuario);
+         Usuario usuario= new Usuario("Rosa Flores", "4321", TipoUsuario.ADMIN);
+         usuariosDAO.agregar(usuario);
 //         System.out.println(usuariosDAO.consultar(1));
 //         System.out.println(usuariosDAO.consultarTodos().toString());
 //         System.out.println(usuariosDAO.consultar("Jose Lopez"));
@@ -53,8 +53,8 @@ public class Pruebas {
 //PROBANDO DAO REGIMENES ESTADOS
             Usuario usuarioTest = new Usuario();
             usuarioTest.setId(4);
-//         RegimenEstado estado = new RegimenEstado("regimen beisbol",usuarioTest, Estado.NO_APROBADO);
-//         regimenEstadoDAO.agregar(estado);
+         RegimenEstado estado = new RegimenEstado("regimen beisbol",usuarioTest, Estado.NO_APROBADO);
+         regimenEstadoDAO.agregar(estado);
             System.out.println(regimenEstadoDAO.consultar(2));
             System.out.println(regimenEstadoDAO.consultarTodos().toString());
             System.out.println(regimenEstadoDAO.consultarPorEntrenador(1));

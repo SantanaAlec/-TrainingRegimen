@@ -28,4 +28,5 @@ public interface IPersistencia {
     public Usuario consultarUsuario(Integer idUsuario) throws Exception ;
     public Usuario consultarUsuario(String nombre)throws Exception ;
     public List<Usuario> consultarTodosUsuarios()throws Exception ;
+    public List<Usuario> consultarEntrenadores()throws Exception ;
 }

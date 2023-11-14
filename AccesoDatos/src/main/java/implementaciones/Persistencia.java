@@ -101,5 +101,10 @@ public class Persistencia implements IPersistencia{
     public List<Usuario> consultarTodosUsuarios() throws Exception {
         return usuariosDAO.consultarTodos();
     }
+
+    @Override
+    public List<Usuario> consultarEntrenadores() throws Exception {
+        return usuariosDAO.consultarEntrenadores();
+    }
     
 }
