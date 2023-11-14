@@ -5,8 +5,10 @@
 package com.itson.presentacion.nuevoRegimen;
 
 import com.itson.dominio.Etapa;
+import com.itson.dominio.Medio;
 import com.itson.dominio.Regimen;
 import com.itson.dominio.Usuario;
+import com.itson.presentacion.medios.FrmAñadirMedio;
 import implementaciones.Persistencia;
 import implementaciones.RegimenDAO;
 import interfaces.IPersistencia;
@@ -71,6 +73,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
         btnCrear = new javax.swing.JButton();
         cmbMetodologo = new javax.swing.JComboBox<>();
         cmbJefeRama = new javax.swing.JComboBox<>();
+        btnAñadirMedios = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -138,21 +141,34 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
 
         cmbMetodologo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Benjamin Murrieta", "Jesus Borquez" }));
 
+        btnAñadirMedios.setBackground(new java.awt.Color(5, 109, 182));
+        btnAñadirMedios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAñadirMedios.setForeground(new java.awt.Color(255, 255, 255));
+        btnAñadirMedios.setText("Añadir medios físicos");
+        btnAñadirMedios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirMediosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtEntrenador)
-                    .addComponent(cmbRama, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cmbMetodologo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtEntrenador)
+                            .addComponent(cmbRama, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbMetodologo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btnAñadirMedios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(54, 54, 54)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEditarEtapas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -198,7 +214,9 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
                     .addComponent(btnIngresarFechas)
                     .addComponent(cmbMetodologo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnEditarEtapas)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEditarEtapas)
+                    .addComponent(btnAñadirMedios))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
@@ -261,6 +279,13 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCrearActionPerformed
 
+    private void btnAñadirMediosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirMediosActionPerformed
+
+        FrmAñadirMedio añadirMedio = new FrmAñadirMedio(regimen.getEtapas());
+        añadirMedio.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAñadirMediosActionPerformed
+
     public static void setFechasRegimen(LocalDate fechaInicio, LocalDate fechaFinal) {
         regimen.setFechaInicio(fechaInicio);
         regimen.setFechaFinal(fechaFinal);
@@ -269,7 +294,15 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
     public static void setEtapasRegimen(List<Etapa> etapas) {
         regimen.setEtapas(etapas);
     }
+    
+    public static void setMediosRegimen(List<Medio>medios){
+        regimen.setMedios(medios);
+    }
 
+    /**
+     * Consulta todos los jefes guardados en la base de datos
+     * @throws Exception 
+     */
     public void llenarJefesRama() throws Exception {
         List<Usuario> personal = persistencia.consultarTodosUsuarios();
 
@@ -279,6 +312,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAñadirMedios;
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnEditarEtapas;
     private javax.swing.JButton btnIngresarFechas;

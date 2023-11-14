@@ -8,8 +8,10 @@ import java.util.Objects;
 
 public class Mesociclo {
 
-    int noMesociclo;
-    int noSemanas;
+    private int noMesociclo;
+    private int noSemanas;
+    private double volumen;
+    private double porcentaje;
 
     public Mesociclo(int noMesociclo,int noSemanas) {
         this.noMesociclo = noMesociclo;
@@ -63,6 +65,22 @@ public class Mesociclo {
             return false;
         }
         return this.noSemanas == other.noSemanas;
+    }
+
+    public double getVolumen() {
+        return volumen;
+    }
+
+    public void setVolumen(double volumen) {
+        this.volumen = volumen;
+    }
+
+    public double getPorcentaje() {
+        return porcentaje;
+    }
+
+    public void setPorcentaje(double porcentaje) {
+        this.porcentaje = porcentaje;
     }
 
     

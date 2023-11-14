@@ -4,6 +4,8 @@
  */
 package com.itson.dominio;
 
+import java.util.List;
+
 /**
  *
  * @author Andrea
@@ -13,7 +15,8 @@ public class Medio {
     private String medio;
     private String medicion;
     private double volumenTotal;
-
+    private List<Etapa> etapas;
+    
     public Medio(String medio, String medicion, double volumenTotal) {
         this.medio = medio;
         this.medicion = medicion;
@@ -44,6 +47,15 @@ public class Medio {
         this.volumenTotal = volumenTotal;
     }
 
+    public List<Etapa> getEtapas() {
+        return etapas;
+    }
+
+    public void setEtapas(List<Etapa> etapas) {
+        this.etapas = etapas;
+    }
+
+    
     @Override
     public String toString() {
         return "Medio{" + "medio=" + medio + ", medicion=" + medicion + ", volumenTotal=" + volumenTotal + '}';

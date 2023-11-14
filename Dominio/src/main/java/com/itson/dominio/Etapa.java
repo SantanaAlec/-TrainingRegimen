@@ -9,10 +9,13 @@ import java.util.List;
 
 public class Etapa {
 
-    String nombre;
-    int totalSemanas;
-    List<Mesociclo> mesociclos;
-
+    private String nombre;
+    private int totalSemanas;
+    private List<Mesociclo> mesociclos;
+    private double volumen;
+    private double volMin;
+    private double volMax;
+    private double instanciasMedio;
     
     public Etapa(String nombre, int totalSemanas, List<Mesociclo> mesociclos) {
         this.nombre = nombre;
@@ -72,6 +75,39 @@ public class Etapa {
         mesociclos.remove(mesociclo);
     }
 
+    public double getVolumen() {
+        return volumen;
+    }
+
+    public void setVolumen(double volumen) {
+        this.volumen = volumen;
+    }
+
+    public double getVolMin() {
+        return volMin;
+    }
+
+    public void setVolMin(double volMin) {
+        this.volMin = volMin;
+    }
+
+    public double getVolMax() {
+        return volMax;
+    }
+
+    public void setVolMax(double volMax) {
+        this.volMax = volMax;
+    }
+
+    public double getInstanciasMedio() {
+        return instanciasMedio;
+    }
+
+    public void setInstanciasMedio(double instanciasMedio) {
+        this.instanciasMedio = instanciasMedio;
+    }
+
+    
     @Override
     public String toString() {
         return "Etapa{" + "nombre=" + nombre + ", totalSemanas=" + totalSemanas + '}';
