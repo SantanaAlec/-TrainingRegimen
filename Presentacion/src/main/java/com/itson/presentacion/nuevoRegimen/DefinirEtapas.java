@@ -63,7 +63,6 @@ public class DefinirEtapas extends javax.swing.JFrame {
             textField.setEditable(false);
         }
         this.semanasTotal=totalSemanas;
-        System.out.println("asdasdadsad: "+ totalSemanas);
     }
 
     /**
@@ -197,7 +196,6 @@ public class DefinirEtapas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CrearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearButtonActionPerformed
-        System.out.println("EN EL BOTON!!!!!!!: "+semanasTotal);
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de definir las etapas?", "Confirmar", JOptionPane.YES_NO_OPTION);
         
         if (confirmacion == JOptionPane.NO_OPTION) {

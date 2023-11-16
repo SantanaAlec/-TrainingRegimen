@@ -7,17 +7,19 @@ package com.itson.presentacion.principal;
 import com.itson.dominio.TipoUsuario;
 import com.itson.dominio.Usuario;
 import com.itson.presentacion.nuevoRegimen.FrmCrearNuevoRegimen;
-
+import com.itson.presentacion.nuevoRegimen.VistaPorMesociclo;
 
 public class FrmPrincipal extends javax.swing.JFrame {
-
+    VistaPorMesociclo vistaMesociclo = new VistaPorMesociclo();
     /**
      * Creates new form FrmNuevoRegimen
      */
     public FrmPrincipal() {
         initComponents();
+        jTabbedPane2.setComponentAt(1,vistaMesociclo);
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -124,7 +126,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         frmCrearNuevoRegimen.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCrearNuevoRegimenActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
