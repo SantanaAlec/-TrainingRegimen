@@ -1,7 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+// Copyright (c) Andrea Salazar Abigail Cárdenas, Alec Demian Santana Celaya, 
+// Carlos Ariel Angulo Campos, Josue Emamnuel Flores Carballo, 
+// Jesus Alejandro Izaguirre Gil. Licensed under the MIT Licence.
+// See the LICENSE file in the repository root for full license text.
 package com.itson.presentacion.medios;
 
 import com.itson.dominio.Etapa;
@@ -13,18 +13,12 @@ import java.awt.TextField;
 import java.util.List;
 import javax.swing.JPanel;
 
-/**
- *
- * @author Andrea
- */
 public class FrmPorcentajesMesociclos extends javax.swing.JFrame {
 
     private List<Etapa> etapas;
     private List<TextField> porcentajes;
     private List<Medio> medios;
-    /**
-     * Creates new form FrmPorcentajesMesociclos
-     */
+
     public FrmPorcentajesMesociclos(List<Medio> medios) {
         initComponents();
         this.medios=medios;

@@ -17,6 +17,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public FrmPrincipal() {
         initComponents();
         jTabbedPane2.setComponentAt(1,vistaMesociclo);
+        vistaMesociclo.llenarTablaDesdeJSON("regimen.json");
     }
 
     

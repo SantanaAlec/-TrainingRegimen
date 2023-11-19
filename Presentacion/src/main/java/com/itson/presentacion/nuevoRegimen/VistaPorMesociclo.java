@@ -1,7 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+// Copyright (c) Andrea Salazar Abigail Cárdenas, Alec Demian Santana Celaya, 
+// Carlos Ariel Angulo Campos, Josue Emamnuel Flores Carballo, 
+// Jesus Alejandro Izaguirre Gil. Licensed under the MIT Licence.
+// See the LICENSE file in the repository root for full license text.
 package com.itson.presentacion.nuevoRegimen;
 
 import javax.swing.table.DefaultTableModel;
@@ -13,18 +13,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.FileReader;
-/**
- *
- * @author Carlos
- */
+
 public class VistaPorMesociclo extends javax.swing.JPanel {
-private DefaultTableModel tableModel;
-    /**
-     * Creates new form VistaPorMesociclo
-     */
+
+    private DefaultTableModel tableModel;
+    private double totalVolumen;
+    private int filas = 1;
+    boolean columnasAgregadas = false;
+
     public VistaPorMesociclo() {
         initComponents();
         tableModel = (DefaultTableModel) tbtMesociclos.getModel();
+
     }
 
     public void llenarTablaDesdeJSON(String filePath) {
@@ -32,30 +32,65 @@ private DefaultTableModel tableModel;
 
         try (FileReader reader = new FileReader(filePath)) {
             JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
+            JsonArray medios = jsonObject.getAsJsonArray("medios");
 
+            for (JsonElement medioElement : medios) {
+                JsonObject medio = medioElement.getAsJsonObject();
+                String nombreMedio = medio.get("medio").getAsString();
+                String primer = medio.get("medio").getAsString() + "(" + medio.get("medicion").getAsString() + ")";
+
+                // Calcular el totalVolumen específico para cada "medio"
+                double totalVolumen = calcularTotalVolumen(medio);
+                Object[] rowDataMedios = {primer, totalVolumen};
+                tableModel.addRow(rowDataMedios);
+            }
             JsonArray etapas = jsonObject.getAsJsonArray("etapas");
-
-            for (JsonElement etapaElement : etapas) {
-                JsonObject etapa = etapaElement.getAsJsonObject();
-                String nombreEtapa = etapa.get("nombre").getAsString();
-                JsonArray mesociclos = etapa.getAsJsonArray("mesociclos");
-
-                for (JsonElement mesocicloElement : mesociclos) {
+                for (JsonElement etapaElement : etapas) {
+                    JsonObject etapa = etapaElement.getAsJsonObject();
+                    JsonArray mesociclos = etapa.getAsJsonArray("mesociclos");
+                    for (JsonElement mesocicloElement : mesociclos) {
                     JsonObject mesociclo = mesocicloElement.getAsJsonObject();
-                    int noMesociclo = mesociclo.get("noMesociclo").getAsInt();
-                    Object[] rowDataEtapas = {noMesociclo, nombreEtapa};
-                    tableModel.addRow(rowDataEtapas);
+                    llenarPorcentajesVol(mesociclo);
+
                 }
             }
-
+            columnasAgregadas = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private double calcularTotalVolumen(JsonObject mesociclos) {
+        double totalVolumen = 0.0;
 
-    
-    
+        JsonArray etapas = mesociclos.getAsJsonArray("etapas");
+
+        for (JsonElement etapaElement : etapas) {
+            JsonObject etapa = etapaElement.getAsJsonObject();
+            double volumenEtapa = etapa.get("volumen").getAsDouble();
+            totalVolumen += volumenEtapa;
+        }
+
+        return totalVolumen;
+    }
+   
+    private boolean llenarPorcentajesVol(JsonObject mesociclo) {
+        int numRows = tableModel.getRowCount();
+
+        int noMesociclo = mesociclo.get("noMesociclo").getAsInt();
+        if (columnasAgregadas == false) {
+            tableModel.addColumn("Mesociclo ");
+            tableModel.addColumn("Vol");
+            tableModel.addColumn("%");
+        }
+        for (int i = 0; i < numRows; i++) {
+            tableModel.setValueAt(noMesociclo, i, tableModel.getColumnCount() - 3);
+            tableModel.setValueAt(0, i, tableModel.getColumnCount() - 2);
+            tableModel.setValueAt(0, i, tableModel.getColumnCount() - 1);
+        }
+        return columnasAgregadas;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,23 +110,25 @@ private DefaultTableModel tableModel;
 
         tbtMesociclos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "No.Mesociclo", "Etapa", "Medios Físicos", "Vol. Total"
+                "Medios físicos", "Volumen Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tbtMesociclos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tbtMesociclos.setEnabled(false);
         tbtMesociclos.setGridColor(new java.awt.Color(255, 255, 255));
         tbtMesociclos.setSelectionBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(tbtMesociclos);
@@ -100,24 +137,23 @@ private DefaultTableModel tableModel;
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 538, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(172, 172, 172)
-                        .addComponent(jLabel5)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addGap(234, 234, 234)
+                .addComponent(jLabel5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
