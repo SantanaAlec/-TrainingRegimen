@@ -1,7 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// Copyright (c) Andrea Salazar Abigail Cárdenas, Alec Demian Santana Celaya, 
+// Carlos Ariel Angulo Campos, Josue Emamnuel Flores Carballo, 
+// Jesus Alejandro Izaguirre Gil. Licensed under the MIT Licence.
+// See the LICENSE file in the repository root for full license text.
 package implementaciones;
 
 import com.itson.dominio.Regimen;
@@ -14,10 +14,7 @@ import interfaces.IRegimenEstadoDAO;
 import interfaces.IUsuariosDAO;
 import java.util.List;
 
-/**
- *
- * @author Andrea
- */
+
 public class Persistencia implements IPersistencia{
 
     private IRegimenDAO regimenDAO;

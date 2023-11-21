@@ -6,6 +6,7 @@ package interfaces;
 
 
 import com.itson.dominio.Usuario;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,5 +20,6 @@ public interface IUsuariosDAO {
     public Usuario consultar(Integer idUsuario) throws Exception ;
     public Usuario consultar(String nombre)throws Exception ;
     public List<Usuario> consultarTodos()throws Exception ;
-    public List<Usuario> consultarEntrenadores()throws Exception ;
+    public List<Usuario> consultarEntrenadores()throws Exception;
+    public void eliminarPorNombres(ArrayList<String>nombres) throws Exception; 
 }

@@ -1,22 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// Copyright (c) Andrea Salazar Abigail Cárdenas, Alec Demian Santana Celaya, 
+// Carlos Ariel Angulo Campos, Josue Emamnuel Flores Carballo, 
+// Jesus Alejandro Izaguirre Gil. Licensed under the MIT Licence.
+// See the LICENSE file in the repository root for full license text.
 package implementaciones;
 
 import com.itson.dominio.TipoUsuario;
 import com.itson.dominio.Usuario;
 import interfaces.IConexionBD;
 import interfaces.IUsuariosDAO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-/**
- *
- * @author Andrea
- */
+
 public class UsuariosDAO implements IUsuariosDAO {
 
     private final IConexionBD conexionBD;
@@ -34,9 +32,12 @@ public class UsuariosDAO implements IUsuariosDAO {
 //            if (usuarioEncontrado != null) {
 //                throw new Exception("El usuario que quiere agregar ya existe");
 //            }
-            em.getTransaction().begin();
-            em.persist(usuario);
-            em.getTransaction().commit();
+            if(usuario==null){
+                throw new NullPointerException("El usuario que intenta agregar es null");
+            }
+           em.getTransaction().begin();
+                em.persist(usuario);
+                em.getTransaction().commit();
         } finally {
             em.close();
         }
@@ -154,5 +155,32 @@ public class UsuariosDAO implements IUsuariosDAO {
             em.close();
         }
     }
+    
+   @Override
+    public void eliminarPorNombres(ArrayList<String>nombres) throws Exception {
+
+        EntityManager em = this.conexionBD.crearConexion();
+              try {
+            // Iniciar transacción si es necesario
+            em.getTransaction().begin();
+
+            // Construir la consulta para eliminar usuarios por nombres
+            String queryString = "DELETE FROM Usuario u WHERE u.nombre IN :nombres";
+            Query query = em.createQuery(queryString);
+            query.setParameter("nombres", nombres);
+
+            query.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            // Rollback en caso de excepción
+            em.getTransaction().rollback();
+            throw new Exception("Error al eliminar usuarios", e);
+        } finally {
+           
+            em.close();
+        }
+
+    }
+    
 
 }

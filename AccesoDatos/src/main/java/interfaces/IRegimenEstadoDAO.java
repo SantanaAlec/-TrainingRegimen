@@ -5,6 +5,7 @@
 package interfaces;
 
 import com.itson.dominio.RegimenEstado;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,4 +19,6 @@ public interface IRegimenEstadoDAO {
     public void eliminar(Integer idRegimenEstado) throws Exception ;
     public RegimenEstado consultarPorEntrenador(Integer idEntrenador) throws Exception ;
     public List<RegimenEstado> consultarTodos() throws Exception ;
+    public void eliminarPorNombres(ArrayList<String>nombres) throws Exception;
+    public RegimenEstado consultarPorNombre(String nombre) throws Exception;
 }

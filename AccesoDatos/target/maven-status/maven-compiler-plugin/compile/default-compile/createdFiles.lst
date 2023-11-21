@@ -5,7 +5,6 @@ implementaciones\UsuariosDAO.class
 implementaciones\RegimenDAO.class
 interfaces\IUsuariosDAO.class
 implementaciones\ConexionBD.class
-pruebas\Pruebas.class
 interfaces\IConexionBD.class
 implementaciones\RegimenEstadoDAO.class
 interfaces\IRegimenDAO.class

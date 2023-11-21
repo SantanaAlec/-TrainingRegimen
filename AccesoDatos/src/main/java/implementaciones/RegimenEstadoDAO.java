@@ -1,26 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// Copyright (c) Andrea Salazar Abigail Cárdenas, Alec Demian Santana Celaya, 
+// Carlos Ariel Angulo Campos, Josue Emamnuel Flores Carballo, 
+// Jesus Alejandro Izaguirre Gil. Licensed under the MIT Licence.
+// See the LICENSE file in the repository root for full license text.
 package implementaciones;
 
 import com.itson.dominio.RegimenEstado;
 import interfaces.IConexionBD;
 import interfaces.IRegimenEstadoDAO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-/**
- *
- * @author Andrea
- */
 public class RegimenEstadoDAO implements IRegimenEstadoDAO {
 
     private final IConexionBD conexionBD;
+
     public RegimenEstadoDAO(IConexionBD conexionBD) {
-        this.conexionBD=conexionBD;
+        this.conexionBD = conexionBD;
     }
 
     @Override
@@ -119,7 +117,7 @@ public class RegimenEstadoDAO implements IRegimenEstadoDAO {
 
         EntityManager em = this.conexionBD.crearConexion();
 
-         try {
+        try {
             em.getTransaction().begin();
             String jpql = "SELECT re FROM RegimenEstado re WHERE re.entrenador.id = :entrenadorId";
             TypedQuery<RegimenEstado> query = em.createQuery(jpql, RegimenEstado.class);
@@ -133,6 +131,53 @@ public class RegimenEstadoDAO implements IRegimenEstadoDAO {
         } finally {
             em.close();
         }
+    }
+
+    
+    @Override
+    public RegimenEstado consultarPorNombre(String nombre) throws Exception {
+            EntityManager em = this.conexionBD.crearConexion();
+
+        try {
+            em.getTransaction().begin();
+            String jpql = "SELECT re FROM RegimenEstado re WHERE re.nombre = :nombre";
+            TypedQuery<RegimenEstado> query = em.createQuery(jpql, RegimenEstado.class);
+            query.setParameter("nombre", nombre);
+            em.getTransaction().commit();
+            List<RegimenEstado> usuarios = query.getResultList();
+            if (usuarios.isEmpty()) {
+                throw new Exception("Ocurrio algun error al consultar por nombre");
+            }
+            return (RegimenEstado) query.getResultList().get(0);
+        } finally {
+            em.close();
+        }
+        
+    }
+
+    @Override
+    public void eliminarPorNombres(ArrayList<String> nombres) throws Exception {
+        EntityManager em = this.conexionBD.crearConexion();
+        try {
+            // Iniciar transacción si es necesario
+            em.getTransaction().begin();
+
+            // Construir la consulta para eliminar usuarios por nombres
+            String queryString = "DELETE FROM RegimenEstado re WHERE re.nombre IN :nombres";
+            Query query = em.createQuery(queryString);
+            query.setParameter("nombres", nombres);
+
+            query.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            // Rollback en caso de excepción
+            em.getTransaction().rollback();
+            throw new Exception("Error al eliminar estado del regimen", e);
+        } finally {
+
+            em.close();
+        }
+
     }
 
 }
