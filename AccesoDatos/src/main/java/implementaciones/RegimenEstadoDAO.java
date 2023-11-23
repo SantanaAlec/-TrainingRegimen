@@ -28,7 +28,7 @@ public class RegimenEstadoDAO implements IRegimenEstadoDAO {
 
         try {
             em.getTransaction().begin();
-            if (regimenEstado != null) {
+            if (regimenEstado != null&&regimenEstado.getEntrenador_id()!=null) {
                 em.persist(regimenEstado);
             }
             em.getTransaction().commit();

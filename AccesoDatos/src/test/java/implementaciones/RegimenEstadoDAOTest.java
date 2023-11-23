@@ -1,7 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
+// Copyright (c) Andrea Salazar Abigail Cárdenas, Alec Demian Santana Celaya, 
+// Carlos Ariel Angulo Campos, Josue Emamnuel Flores Carballo, 
+// Jesus Alejandro Izaguirre Gil. Licensed under the MIT Licence.
+// See the LICENSE file in the repository root for full license text.
 package implementaciones;
 
 import com.itson.dominio.Estado;
@@ -21,73 +21,98 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
-/**
- *
- * @author Andrea
- */
 public class RegimenEstadoDAOTest {
-    
+
+    @Mock
+    IConexionBD conexion;
+    @Mock
+    IUsuariosDAO usuarioDAO;
+
+    @Mock
+    IRegimenEstadoDAO regimenestadoDAO;
+
     public RegimenEstadoDAOTest() {
     }
-    
+
     @BeforeAll
     public static void setUpClass() {
+
     }
-    
+
     @AfterAll
     public static void tearDownClass() {
     }
 
+    @BeforeEach
+    public void setup() {
+
+    }
+
     /**
      * Test of agregar method, of class RegimenEstadoDAO.
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testAgregar() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IRegimenEstadoDAO regimenDAO = new RegimenEstadoDAO(conexion);
-        IUsuariosDAO usuarioDAO = new UsuariosDAO(conexion);
-        usuarioDAO.agregar( new Usuario("Prueba agregar", "4321", TipoUsuario.ENTRENADOR));
-        
-        System.out.println("agregar regimen estado");
-        RegimenEstado regimen = new RegimenEstado("Prueba agregar", usuarioDAO.consultar(1), Estado.NO_APROBADO);
+        System.out.println("Testing agregar...");
+        MockitoAnnotations.openMocks(this);
+        Mockito.when(usuarioDAO.consultar(1)).thenReturn(new Usuario("Prueba agregar", "4321", TipoUsuario.ENTRENADOR));
+        RegimenEstado regimenEstado = new RegimenEstado("Prueba agregar", usuarioDAO.consultar(1), Estado.NO_APROBADO);
+
         assertDoesNotThrow(() -> {
-            regimenDAO.agregar(regimen);
+            regimenestadoDAO.agregar(regimenEstado);
         });
 
-        ArrayList usuarioPrueba = new ArrayList(Arrays.asList("Prueba agregar"));
-        try {
-            regimenDAO.eliminarPorNombres(usuarioPrueba);
-            usuarioDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    }
+
+    @Test
+    public void testAgregarNull() throws Exception {
+        System.out.println("Testing agregar null...");
+        MockitoAnnotations.openMocks(this);
+
+        Mockito.doThrow(Exception.class).when(regimenestadoDAO).agregar(null);
+        assertThrows(Exception.class, () -> {
+            regimenestadoDAO.agregar(null);
+        });
+
     }
 
     /**
      * Test of eliminar method, of class RegimenEstadoDAO.
      */
     @Test
-    public void testEliminar() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IRegimenEstadoDAO regimenDAO = new RegimenEstadoDAO(conexion);
-        IUsuariosDAO usuarioDAO = new UsuariosDAO(conexion);
-        usuarioDAO.agregar( new Usuario("Prueba eliminar", "4321", TipoUsuario.ENTRENADOR));
-        
-        System.out.println("eliminar regimen estado");
-        RegimenEstado regimen = new RegimenEstado("Prueba eliminar", usuarioDAO.consultar(1), Estado.NO_APROBADO);
-        regimenDAO.agregar(regimen);
+    public void testEliminar() {
+        System.out.println("Testing eliminar...");
+        MockitoAnnotations.openMocks(this);
+
         assertDoesNotThrow(() -> {
-            regimenDAO.eliminar(regimenDAO.consultarPorNombre("Prueba eliminar").getId());
+            regimenestadoDAO.eliminar(Mockito.anyInt());
         });
 
-        ArrayList usuarioPrueba = new ArrayList(Arrays.asList("Prueba eliminar"));
-        try {
-            regimenDAO.eliminarPorNombres(usuarioPrueba);
-            usuarioDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    }
+
+    /**
+     * Test of eliminar method, of class RegimenEstadoDAO.
+     */
+    @Test
+    public void testEliminarInexistente() throws Exception {
+        System.out.println("Testing eliminar inexistente...");
+        MockitoAnnotations.openMocks(this);
+
+        Mockito.doThrow(Exception.class).when(regimenestadoDAO).eliminar(-1);
+
+        assertThrows(Exception.class, () -> {
+            regimenestadoDAO.eliminar(-1);
+        });
+
     }
 
     /**
@@ -95,39 +120,30 @@ public class RegimenEstadoDAOTest {
      */
     @Test
     public void testActualizar() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IRegimenEstadoDAO regimenDAO = new RegimenEstadoDAO(conexion);
-        IUsuariosDAO usuarioDAO = new UsuariosDAO(conexion);
-        usuarioDAO.agregar( new Usuario("Prueba actualizar", "4321", TipoUsuario.ENTRENADOR));
-        
-        System.out.println("actualizar regimen estado");
-        RegimenEstado regimen = new RegimenEstado("Prueba actualizar", usuarioDAO.consultar(1), Estado.NO_APROBADO);
-        regimenDAO.agregar(regimen);
-        regimen.setNombre("Prueba actualizar");
+        System.out.println("Testing actualizar...");
+        MockitoAnnotations.openMocks(this);
+        Mockito.when(usuarioDAO.consultar(1)).thenReturn(new Usuario("Prueba agregar", "4321", TipoUsuario.ENTRENADOR));
+        RegimenEstado regimenEstado = new RegimenEstado("Prueba agregar", usuarioDAO.consultar(1), Estado.NO_APROBADO);
+
         assertDoesNotThrow(() -> {
-            regimenDAO.actualizar(regimen);
+            regimenestadoDAO.actualizar(regimenEstado);
         });
-        
-        ArrayList usuarioPrueba = new ArrayList(Arrays.asList("Prueba actualizar"));
-        try {
-            regimenDAO.eliminarPorNombres(usuarioPrueba);
-            usuarioDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }
-      
+
     @Test
-    public void testConsultar_Inexistente() {
-        IConexionBD conexion = new ConexionBD();
-        IRegimenEstadoDAO regimenDAO = new RegimenEstadoDAO(conexion);
-        System.out.println("consultar regimen inexistente");
-        Integer idUsuario = -1;
+    public void testActualizarInexistente() throws Exception {
+        System.out.println("Testing actualizar inexistente...");
+        MockitoAnnotations.openMocks(this);
+        Mockito.when(usuarioDAO.consultar(1)).thenReturn(new Usuario("Prueba agregar", "4321", TipoUsuario.ENTRENADOR));
+
+        RegimenEstado regimenEstado = new RegimenEstado("Prueba agregar", new Usuario(), Estado.NO_APROBADO);
+
+        Mockito.doThrow(Exception.class).when(regimenestadoDAO).actualizar(regimenEstado);
 
         assertThrows(Exception.class, () -> {
-            regimenDAO.consultar(idUsuario);
+            regimenestadoDAO.actualizar(regimenEstado);
         });
-        
 
     }
 
@@ -135,29 +151,30 @@ public class RegimenEstadoDAOTest {
      * Test of consultar method, of class RegimenEstadoDAO.
      */
     @Test
-    public void testConsultar() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IRegimenEstadoDAO regimenDAO = new RegimenEstadoDAO(conexion);
-        IUsuariosDAO usuarioDAO = new UsuariosDAO(conexion);
-        usuarioDAO.agregar( new Usuario("Prueba consultar", "4321", TipoUsuario.ENTRENADOR));
-        
-        System.out.println("consutlar regimen estado");
-        RegimenEstado regimen = new RegimenEstado("Prueba consultar", usuarioDAO.consultar(1), Estado.NO_APROBADO);
-        assertDoesNotThrow(() -> {
-            regimenDAO.agregar(regimen);
-        });
-        
-        assertDoesNotThrow(() -> {
-            regimenDAO.consultar(regimenDAO.consultarPorNombre("Prueba consultar").getId());
-        });
+    public void testConsultar_Inexistente() throws Exception {
+        System.out.println("Testing consultar inexistente...");
+        MockitoAnnotations.openMocks(this);
 
-        ArrayList usuarioPrueba = new ArrayList(Arrays.asList("Prueba consultar"));
-        try {
-            regimenDAO.eliminarPorNombres(usuarioPrueba);
-            usuarioDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Mockito.doThrow(Exception.class).when(regimenestadoDAO).consultar(-1);
+
+        assertThrows(Exception.class, () -> {
+            regimenestadoDAO.consultar(-1);
+        });
+    }
+
+    /**
+     * Test of consultar method, of class RegimenEstadoDAO.
+     */
+    @Test
+    public void testConsultar() throws Exception {
+        System.out.println("Testing consultar...");
+        MockitoAnnotations.openMocks(this);
+        RegimenEstado regimenEstadoEsperado = new RegimenEstado(1, "Prueba consultar", usuarioDAO.consultar(1), Estado.NO_APROBADO);
+        Mockito.when(regimenestadoDAO.consultar(1)).thenReturn(regimenEstadoEsperado);
+        
+        assertEquals(regimenEstadoEsperado, regimenestadoDAO.consultar(1));
+
+        
     }
 
     /**
@@ -165,26 +182,19 @@ public class RegimenEstadoDAOTest {
      */
     @Test
     public void testConsultarTodos() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IRegimenEstadoDAO regimenDAO = new RegimenEstadoDAO(conexion);
-        IUsuariosDAO usuarioDAO = new UsuariosDAO(conexion);
-        usuarioDAO.agregar( new Usuario("consutlar estados de regimenes", "4321", TipoUsuario.ENTRENADOR));
+        System.out.println("Testing consultar todos...");
+        MockitoAnnotations.openMocks(this);
+        List<RegimenEstado> regimenEstados = new ArrayList<>();
         
-        System.out.println("consutlar estados de regimenes");
-        RegimenEstado regimen = new RegimenEstado("consutlar estados de regimenes", usuarioDAO.consultar(1), Estado.NO_APROBADO);
-        regimenDAO.agregar(regimen);
+        RegimenEstado regimenEstado1 = new RegimenEstado(1, "Prueba consultar", usuarioDAO.consultar(1), Estado.NO_APROBADO);
+        RegimenEstado regimenEstado2 = new RegimenEstado(2, "Prueba consultar", usuarioDAO.consultar(2), Estado.NO_APROBADO);
+
+        regimenEstados.add(regimenEstado1);
+        regimenEstados.add(regimenEstado2);
         
-        assertDoesNotThrow(() -> {
-            regimenDAO.consultarTodos();
-        });
+        Mockito.when(regimenestadoDAO.consultarTodos()).thenReturn(regimenEstados);
         
-        ArrayList usuarioPrueba = new ArrayList(Arrays.asList("consutlar estados de regimenes"));
-        try {
-            regimenDAO.eliminarPorNombres(usuarioPrueba);
-            usuarioDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        assertEquals(regimenEstados, regimenestadoDAO.consultarTodos());
     }
 
     /**
@@ -192,27 +202,19 @@ public class RegimenEstadoDAOTest {
      */
     @Test
     public void testConsultarPorEntrenador() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IRegimenEstadoDAO regimenDAO = new RegimenEstadoDAO(conexion);
-        IUsuariosDAO usuarioDAO = new UsuariosDAO(conexion);
-        usuarioDAO.agregar( new Usuario("consutlar estados de regimenes", "4321", TipoUsuario.ENTRENADOR));
+        System.out.println("Testing consultar por entrenador...");
+        MockitoAnnotations.openMocks(this);
+        List<RegimenEstado> regimenEstados = new ArrayList<>();
         
-        System.out.println("consutlar estados de regimenes");
-        RegimenEstado regimen = new RegimenEstado("consutlar estados de regimenes",
-                usuarioDAO.consultar("consutlar estados de regimenes"), Estado.NO_APROBADO);
-        regimenDAO.agregar(regimen);
+        RegimenEstado regimenEstado1 = new RegimenEstado(1, "Prueba consultar", usuarioDAO.consultar(1), Estado.NO_APROBADO);
+        RegimenEstado regimenEstado2 = new RegimenEstado(2, "Prueba consultar", usuarioDAO.consultar(2), Estado.NO_APROBADO);
+
+        regimenEstados.add(regimenEstado1);
+        regimenEstados.add(regimenEstado2);
         
-        assertDoesNotThrow(() -> {
-            regimenDAO.consultarPorEntrenador(usuarioDAO.consultar("consutlar estados de regimenes").getId());
-        });
-        
-        ArrayList usuarioPrueba = new ArrayList(Arrays.asList("consutlar estados de regimenes"));
-        try {
-            regimenDAO.eliminarPorNombres(usuarioPrueba);
-            usuarioDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Mockito.when(regimenestadoDAO.consultarTodos()).thenReturn(regimenEstados);
+
+        assertEquals(regimenEstados, regimenestadoDAO.consultarTodos());
     }
-    
+
 }

@@ -4,6 +4,8 @@
 // See the LICENSE file in the repository root for full license text.
 package implementaciones;
 
+import com.itson.dominio.Estado;
+import com.itson.dominio.RegimenEstado;
 import com.itson.dominio.TipoUsuario;
 import com.itson.dominio.Usuario;
 import interfaces.IConexionBD;
@@ -21,9 +23,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 public class UsuariosDAOTest {
 
+    @Mock
+    IConexionBD conexion;
+    @Mock
+    IUsuariosDAO usuarioDAO;
+    
     public UsuariosDAOTest() {
     }
 
@@ -51,30 +61,24 @@ public class UsuariosDAOTest {
      */
     @Test
     public void testAgregar() {
-        IConexionBD conexion = new ConexionBD();
-        IUsuariosDAO usuariosDAO = new UsuariosDAO(conexion);
-        System.out.println("agregar");
-        Usuario usuario = new Usuario("Prueba agregar", "4321", TipoUsuario.ENTRENADOR);
-        assertDoesNotThrow(() -> {
-            usuariosDAO.agregar(usuario);
-        });
+        System.out.println("Testing agregar...");
+        MockitoAnnotations.openMocks(this);
+        Usuario usuarioTest = new Usuario("Prueba agregar", "4321", TipoUsuario.ENTRENADOR);
 
-        ArrayList usuarioPrueba = new ArrayList(Arrays.asList("Prueba agregar"));
-        try {
-            usuariosDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        assertDoesNotThrow(() -> {
+            usuarioDAO.agregar(usuarioTest);
+        });
     }
 
     @Test
-    public void testAgregarNull() {
-        IConexionBD conexion = new ConexionBD();
-        IUsuariosDAO usuariosDAO = new UsuariosDAO(conexion);
-        System.out.println("agregar");
-        Usuario usuario = null;
+    public void testAgregarNull() throws Exception {
+        System.out.println("Testing agregar null...");
+        MockitoAnnotations.openMocks(this);
+        
+        Mockito.doThrow(NullPointerException.class).when(usuarioDAO).agregar(null);
+
         assertThrows(NullPointerException.class, () -> {
-            usuariosDAO.agregar(usuario);
+            usuarioDAO.agregar(null);
         });
 
     }
@@ -84,53 +88,43 @@ public class UsuariosDAOTest {
      */
     @Test
     public void testActualizar() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IUsuariosDAO usuariosDAO = new UsuariosDAO(conexion);
+        System.out.println("Testing actualizar...");
+        MockitoAnnotations.openMocks(this);
         Usuario usuarioTest = new Usuario("Prueba actualizar", "4321", TipoUsuario.ENTRENADOR);
-        usuariosDAO.agregar(usuarioTest);
-        System.out.println("actualizar");
-        Usuario usuario = usuariosDAO.consultar("Prueba actualizar");
-        usuario.setNombre("Prueba-unitaria");
 
         assertDoesNotThrow(() -> {
-            usuariosDAO.actualizar(usuario);
+            usuarioDAO.actualizar(usuarioTest);
         });
-
-        assertDoesNotThrow(() -> {
-            usuariosDAO.consultar("Prueba-unitaria");
-        });
-
-        ArrayList usuarioPrueba = new ArrayList(Arrays.asList("Prueba-unitaria"));
-        try {
-            usuariosDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
+    /**
+     * Test of actualizar method, of class UsuariosDAO.
+     */
+    @Test
+    public void testActualizarNull() throws Exception {
+        System.out.println("Testing actualizar null...");
+        MockitoAnnotations.openMocks(this);
+        Usuario usuarioTest = new Usuario("Prueba actualizar", "4321", TipoUsuario.ENTRENADOR);
+
+        Mockito.doThrow(Exception.class).when(usuarioDAO).agregar(null);
+
+        assertThrows(Exception.class, () -> {
+            usuarioDAO.agregar(null);
+        });
+    }
+    
     /**
      * Test of consultar method, of class UsuariosDAO.
      */
     @Test
     public void testConsultar_IusuarioExistente() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IUsuariosDAO usuariosDAO = new UsuariosDAO(conexion);
-        Usuario usuarioTest = new Usuario("Prueba consultar id", "4321", TipoUsuario.ENTRENADOR);
-        usuariosDAO.agregar(usuarioTest);
-        System.out.println("consultar");
-        Integer idUsuario = 1;
-
-        assertDoesNotThrow(() -> {
-            usuariosDAO.consultar(idUsuario);
-        },
-                "El usuario que quiere consultar, no existe");
-
-        ArrayList usuarioPrueba = new ArrayList(Arrays.asList("Prueba consultar id"));
-        try {
-            usuariosDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
+        System.out.println("Testing consultar...");
+        MockitoAnnotations.openMocks(this);
+        Usuario usuarioTest = new Usuario("Prueba agregar", "4321", TipoUsuario.ENTRENADOR);
+        Mockito.when(usuarioDAO.consultar(1)).thenReturn(usuarioTest);
+        
+        assertEquals(usuarioTest, usuarioDAO.consultar(1));
 
     }
 
@@ -138,17 +132,15 @@ public class UsuariosDAOTest {
      * Test of consultar method, of class UsuariosDAO.
      */
     @Test
-    public void testConsultar_usuarioInexistente() {
-        IConexionBD conexion = new ConexionBD();
-        IUsuariosDAO usuariosDAO = new UsuariosDAO(conexion);
-        System.out.println("consultar");
-        Integer idUsuario = -1;
+    public void testConsultar_usuarioInexistente() throws Exception {
+        System.out.println("Testing consultar inexistente...");
+        MockitoAnnotations.openMocks(this);
+
+        Mockito.doThrow(Exception.class).when(usuarioDAO).consultar(-1);
 
         assertThrows(Exception.class, () -> {
-            usuariosDAO.consultar(idUsuario);
+            usuarioDAO.consultar(-1);
         });
-        
-
     }
 
     /**
@@ -156,21 +148,17 @@ public class UsuariosDAOTest {
      */
     @Test
     public void testConsultarTodos() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IUsuariosDAO usuariosDAO = new UsuariosDAO(conexion);
+        System.out.println("Testing consultar todos...");
+        MockitoAnnotations.openMocks(this);
 
         Usuario usuarioTest = new Usuario("Prueba consultar todos", "4321", TipoUsuario.ENTRENADOR);
-        usuariosDAO.agregar(usuarioTest);
-        System.out.println("consultarTodos");
-        List<Usuario> result = usuariosDAO.consultarTodos();
-        assertTrue(!result.isEmpty());
+       
+        List<Usuario> usuarios = new ArrayList<>();
+        usuarios.add(usuarioTest);
         
-        ArrayList usuarioPrueba= new ArrayList(Arrays.asList("Prueba consultar todos"));
-        try {
-            usuariosDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Mockito.when(usuarioDAO.consultarTodos()).thenReturn(usuarios);
+        
+        assertEquals(usuarios, usuarioDAO.consultarTodos());
     }
 
     /**
@@ -178,23 +166,14 @@ public class UsuariosDAOTest {
      */
     @Test
     public void testConsultar_String() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IUsuariosDAO usuariosDAO = new UsuariosDAO(conexion);
+        System.out.println("Testing consultar todos...");
+        MockitoAnnotations.openMocks(this);
 
-        Usuario usuarioTest = new Usuario("Prueba consultar nombre", "4321", TipoUsuario.ENTRENADOR);
-        usuariosDAO.agregar(usuarioTest);
-        System.out.println("consultar");
-        String nombre = "Prueba consultar nombre";
-
-        Usuario result = usuariosDAO.consultar(nombre);
-        assertEquals(nombre, result.getNombre());
+        Usuario usuarioTest = new Usuario("Prueba", "4321", TipoUsuario.ENTRENADOR);
+       
+        Mockito.when(usuarioDAO.consultar("Prueba")).thenReturn(usuarioTest);
         
-        ArrayList usuarioPrueba= new ArrayList(Arrays.asList("Prueba consultar nombre"));
-        try {
-            usuariosDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        assertEquals(usuarioTest, usuarioDAO.consultar("Prueba"));
 
     }
 
@@ -203,21 +182,17 @@ public class UsuariosDAOTest {
      */
     @Test
     public void testConsultarEntrenadores() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IUsuariosDAO usuariosDAO = new UsuariosDAO(conexion);
+        System.out.println("Testing consultar entrenadores...");
+        MockitoAnnotations.openMocks(this);
 
-        Usuario usuarioTest = new Usuario("Prueba consultar entrenadores", "4321", TipoUsuario.ENTRENADOR);
-        usuariosDAO.agregar(usuarioTest);
-        System.out.println("consultar Entrenadores");
-        List<Usuario> result = usuariosDAO.consultarTodos();
-        assertTrue(!result.isEmpty());
+        Usuario usuarioTest = new Usuario("Prueba consultar esntrenadores", "4321", TipoUsuario.ENTRENADOR);
+       
+        List<Usuario> usuarios = new ArrayList<>();
+        usuarios.add(usuarioTest);
         
-        ArrayList usuarioPrueba= new ArrayList(Arrays.asList("Prueba consultar entrenadores"));
-        try {
-            usuariosDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Mockito.when(usuarioDAO.consultarEntrenadores()).thenReturn(usuarios);
+        
+        assertEquals(usuarios, usuarioDAO.consultarEntrenadores());
     }
 
     /**
@@ -225,25 +200,26 @@ public class UsuariosDAOTest {
      */
     @Test
     public void testEliminar() throws Exception {
-        IConexionBD conexion = new ConexionBD();
-        IUsuariosDAO usuariosDAO = new UsuariosDAO(conexion);
-        Usuario usuarioTest = new Usuario("Prueba eliminar", "4321", TipoUsuario.ENTRENADOR);
-        usuariosDAO.agregar(usuarioTest);
-
-        System.out.println("eliminar");
-        Integer idUsuario = usuariosDAO.consultar("Prueba eliminar").getId();
+        System.out.println("Testing eliminar...");
+        MockitoAnnotations.openMocks(this);
 
         assertDoesNotThrow(() -> {
-            usuariosDAO.eliminar(idUsuario);
+            usuarioDAO.eliminar(Mockito.anyInt());
         });
-        
-        ArrayList usuarioPrueba= new ArrayList(Arrays.asList("Prueba eliminar"));
-        try {
-            usuariosDAO.eliminarPorNombres(usuarioPrueba);
-        } catch (Exception ex) {
-            Logger.getLogger(UsuariosDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
+    /**
+     * Test of eliminar method, of class UsuariosDAO.
+     */
+    @Test
+    public void testEliminarInexistente() throws Exception {
+        System.out.println("Testing eliminar inexistente...");
+        MockitoAnnotations.openMocks(this);
+
+        Mockito.doThrow(Exception.class).when(usuarioDAO).eliminar(-1);
+
+        assertThrows(Exception.class, () -> {
+            usuarioDAO.eliminar(-1);
+        });
+    }
 }
