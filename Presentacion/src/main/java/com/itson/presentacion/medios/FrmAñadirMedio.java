@@ -7,19 +7,25 @@ package com.itson.presentacion.medios;
 import com.itson.dominio.Etapa;
 import com.itson.dominio.Medio;
 import com.itson.presentacion.nuevoRegimen.FrmCrearNuevoRegimen;
+import java.awt.TextField;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class FrmAñadirMedio extends javax.swing.JFrame {
 
-    private List<Medio>medios;
-    private List<Etapa>etapas;
+    private List<Medio> medios;
+    private List<Etapa> etapas;
+    private int medioSeleccionado;
 
-    public FrmAñadirMedio(List<Etapa>etapas) {
+    public FrmAñadirMedio(List<Etapa> etapas) {
         initComponents();
-        this.etapas=etapas;
+        this.etapas = etapas;
         medios = new ArrayList<>();
+        medioSeleccionado=-1;
     }
 
     /**
@@ -63,7 +69,6 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
         btnAñadir = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        btnAsignarPorcentajes = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -73,7 +78,7 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(5, 109, 182));
-        jLabel5.setText("Añadir Medios");
+        jLabel5.setText("Medios físicos");
 
         tblMedios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -89,6 +94,11 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblMedios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMediosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblMedios);
@@ -158,9 +168,6 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
             }
         });
 
-        btnAsignarPorcentajes.setForeground(new java.awt.Color(5, 109, 182));
-        btnAsignarPorcentajes.setText("Asignar porcentajes");
-
         btnAceptar.setBackground(new java.awt.Color(5, 109, 182));
         btnAceptar.setForeground(new java.awt.Color(255, 255, 255));
         btnAceptar.setText("Aceptar");
@@ -221,6 +228,11 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
                                         .addGap(7, 7, 7)
                                         .addComponent(txtInstCompetitiva, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jSeparator1)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(26, 26, 26)
@@ -238,27 +250,19 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
                                         .addComponent(jLabel15))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(97, 97, 97)
-                                        .addComponent(jLabel11)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jSeparator1))))
+                                        .addComponent(jLabel11))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(106, 106, 106)
+                                        .addComponent(btnAñadir)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(598, 598, 598)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnAsignarPorcentajes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(12, 12, 12))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(106, 106, 106)
-                .addComponent(btnAñadir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,9 +316,7 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
                             .addComponent(jLabel14))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAñadir, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
-                .addComponent(btnAsignarPorcentajes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43))
         );
@@ -327,7 +329,7 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -335,58 +337,10 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
 
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
 
-  
-        
-        String nombre = txtMedio.getText();
-        String medicion = txtMedicion.getText();
-        double minGeneral = Double.parseDouble(txtMinGeneral.getText());
-        double maxGeneral = Double.parseDouble(txtMaxGeneral.getText());
-        int instGeneral = Integer.parseInt(txtInstGeneral.getText());
-        
-        double minEspecial = Double.parseDouble(txtMinEspecial.getText());
-        double maxEspecial = Double.parseDouble(txtMaxEspecial.getText());
-        int instEspecial = Integer.parseInt(txtInstEspecial.getText());
-        
-        double minCompetitiva = Double.parseDouble(txtMinCompetitiva.getText());
-        double maxCompetitiva = Double.parseDouble(txtMaxCompetitiva.getText());
-        int instCompetitiva = Integer.parseInt(txtInstCompetitiva.getText());
-        
-        //TODO:Validaciones
-        Medio medioNuevo = new Medio(nombre, medicion, 0);
-       
-        List<Etapa>etapasNuevas= new ArrayList<>();
-        Etapa etapaGeneral =  new Etapa("General");
-        int semanasGeneral =etapas.get(0).getTotalSemanas();
-        
-        
-        double volGeneral = ((minGeneral+maxGeneral)/2)*instGeneral*semanasGeneral;
-        etapaGeneral.setVolMin(minGeneral);
-        etapaGeneral.setVolMax(maxGeneral);
-        etapaGeneral.setInstanciasMedio(instGeneral);
-        etapaGeneral.setVolumen(volGeneral);
-        etapasNuevas.add(etapaGeneral);
-        
-        Etapa etapaEspecial =  new Etapa("Epecial");
-        int semanasEspecial = etapas.get(1).getTotalSemanas();
-        double volEspecial = ((minEspecial+maxEspecial)/2)*instEspecial*semanasEspecial;
-        etapaEspecial.setVolMin(minEspecial);
-        etapaEspecial.setVolMax(maxEspecial);
-        etapaEspecial.setInstanciasMedio(instEspecial);
-        etapaEspecial.setVolumen(volEspecial);
-         etapasNuevas.add(etapaEspecial);
-        
-        Etapa etapaCompetitiva = new Etapa("Competitiva") ;
-        int semanasCompetitiva = etapas.get(2).getTotalSemanas();
-        double volCompetitiva = ((minCompetitiva+maxCompetitiva)/2)*instCompetitiva*semanasCompetitiva;
-        etapaCompetitiva.setVolMin(minCompetitiva);
-        etapaCompetitiva.setVolMax(maxCompetitiva);
-        etapaCompetitiva.setInstanciasMedio(instCompetitiva);
-        etapaCompetitiva.setVolumen(volCompetitiva);
-         etapasNuevas.add(etapaCompetitiva);
-        
-        medioNuevo.setEtapas(etapasNuevas);
-        medios.add(medioNuevo);
-        añadirMedioTabla(medioNuevo);
+        if (validarCampos()) {
+            añadirMedio();
+        }
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAñadirActionPerformed
 
@@ -396,27 +350,109 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAceptarActionPerformed
 
-  public void añadirMedioTabla(Medio medio){
-       
-     
+    private void tblMediosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMediosMouseClicked
+        if (evt.getClickCount() == 2 && tblMedios.getSelectedRow() != -1) {
+            medioSeleccionado = tblMedios.getSelectedRow();
+            recuperarInfoMedio();
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblMediosMouseClicked
+
+    public void añadirMedio() {
+        String nombre = txtMedio.getText();
+        String medicion = txtMedicion.getText();
+        int minGeneral = Integer.parseInt(txtMinGeneral.getText());
+        int maxGeneral = Integer.parseInt(txtMaxGeneral.getText());
+        int instGeneral = Integer.parseInt(txtInstGeneral.getText());
+
+        int minEspecial = Integer.parseInt(txtMinEspecial.getText());
+        int maxEspecial = Integer.parseInt(txtMaxEspecial.getText());
+        int instEspecial = Integer.parseInt(txtInstEspecial.getText());
+
+        int minCompetitiva = Integer.parseInt(txtMinCompetitiva.getText());
+        int maxCompetitiva = Integer.parseInt(txtMaxCompetitiva.getText());
+        int instCompetitiva = Integer.parseInt(txtInstCompetitiva.getText());
+
+        Medio medioNuevo = new Medio(nombre, medicion, 0);
+
+        List<Etapa> etapasNuevas = new ArrayList<>();
+        Etapa etapaGeneral = new Etapa("General");
+        int semanasGeneral = etapas.get(0).getTotalSemanas();
+
+        double volGeneral = ((minGeneral + maxGeneral) / 2) * instGeneral * semanasGeneral;
+        etapaGeneral.setVolMin(minGeneral);
+        etapaGeneral.setVolMax(maxGeneral);
+        etapaGeneral.setInstanciasMedio(instGeneral);
+        etapaGeneral.setVolumen(volGeneral);
+        etapasNuevas.add(etapaGeneral);
+
+        Etapa etapaEspecial = new Etapa("Epecial");
+        int semanasEspecial = etapas.get(1).getTotalSemanas();
+        double volEspecial = ((minEspecial + maxEspecial) / 2) * instEspecial * semanasEspecial;
+        etapaEspecial.setVolMin(minEspecial);
+        etapaEspecial.setVolMax(maxEspecial);
+        etapaEspecial.setInstanciasMedio(instEspecial);
+        etapaEspecial.setVolumen(volEspecial);
+        etapasNuevas.add(etapaEspecial);
+
+        Etapa etapaCompetitiva = new Etapa("Competitiva");
+        int semanasCompetitiva = etapas.get(2).getTotalSemanas();
+        double volCompetitiva = ((minCompetitiva + maxCompetitiva) / 2) * instCompetitiva * semanasCompetitiva;
+        etapaCompetitiva.setVolMin(minCompetitiva);
+        etapaCompetitiva.setVolMax(maxCompetitiva);
+        etapaCompetitiva.setInstanciasMedio(instCompetitiva);
+        etapaCompetitiva.setVolumen(volCompetitiva);
+        etapasNuevas.add(etapaCompetitiva);
+
+        medioNuevo.setEtapas(etapasNuevas);
+
+        if (medioSeleccionado < 0) {
+            medios.add(medioNuevo);
+            añadirMedioTabla(medioNuevo);
+        } else {
+            medios.add(medioSeleccionado, medioNuevo);
+            modificarMedioTabla(medioSeleccionado, medioNuevo);
+            medioSeleccionado = -1;
+        }
+        vaciarCampos();
+
+    }
+
+    public void añadirMedioTabla(Medio medio) {
+
         Object[] rowData = {medio.getMedio(),
-            medio.getEtapas().get(0).getVolumen(), 
+            medio.getEtapas().get(0).getVolumen(),
             medio.getEtapas().get(1).getVolumen(),
             medio.getEtapas().get(2).getVolumen()};
         // Agregar la fila al modelo de la tabla
         DefaultTableModel model = (DefaultTableModel) tblMedios.getModel();
         model.addRow(rowData);
-  }
 
-  public void vaciarCampos(){
-      txtInstCompetitiva.setText("");
-      txtInstEspecial.setText("");
-      txtInstGeneral.setText("");
-      txtMaxCompetitiva.setText("");
-  }
+    }
+
+    public void modificarMedioTabla(int medioIndex, Medio medio) {
+        tblMedios.setValueAt(medio.getMedio(), medioIndex, 0);
+        tblMedios.setValueAt(medio.getEtapas().get(0).getVolumen(), medioIndex, 1);
+        tblMedios.setValueAt(medio.getEtapas().get(1).getVolumen(), medioIndex, 2);
+        tblMedios.setValueAt(medio.getEtapas().get(2).getVolumen(), medioIndex, 3);
+    }
+
+    public void vaciarCampos() {
+        txtInstCompetitiva.setText("");
+        txtInstEspecial.setText("");
+        txtInstGeneral.setText("");
+        txtMaxCompetitiva.setText("");
+        txtMaxEspecial.setText("");
+        txtMaxGeneral.setText("");
+        txtMedicion.setText("");
+        txtMedio.setText("");
+        txtMinCompetitiva.setText("");
+        txtMinEspecial.setText("");
+        txtMinGeneral.setText("");
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
-    private javax.swing.JButton btnAsignarPorcentajes;
     private javax.swing.JButton btnAñadir;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -450,4 +486,74 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
     private javax.swing.JTextField txtMinEspecial;
     private javax.swing.JTextField txtMinGeneral;
     // End of variables declaration//GEN-END:variables
+
+    private boolean validarCampos() {
+        List<JTextField> camposNumericos = new ArrayList<>();
+        camposNumericos.addAll(Arrays.asList(txtInstCompetitiva, txtInstEspecial,
+                txtInstGeneral, txtMaxCompetitiva, txtMaxEspecial, txtMaxEspecial,
+                txtMaxGeneral, txtMinCompetitiva, txtMinEspecial, txtMinGeneral));
+
+        if (txtMedicion.getText().isBlank() || txtMedio.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe llenar todos los campos",
+                    "Datos incompletos", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        for (JTextField campo : camposNumericos) {
+            String text = campo.getText();
+            if (text.isBlank()) {
+                JOptionPane.showMessageDialog(this,
+                        "Debe llenar todos los campos",
+                        "Datos incompletos", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            try {
+                int cantidad = Integer.parseInt(text);
+                if (cantidad < 0) {
+                    JOptionPane.showMessageDialog(this,
+                            "Las cantidades deben ser mayores a 0",
+                            "Datos invalidos", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this,
+                        "No se permiten decimales",
+                        "Datos invalidos", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        int minGeneral = Integer.parseInt(txtMinGeneral.getText());
+        int maxGeneral = Integer.parseInt(txtMaxGeneral.getText());
+
+        int minEspecial = Integer.parseInt(txtMinEspecial.getText());
+        int maxEspecial = Integer.parseInt(txtMaxEspecial.getText());
+
+        int minCompetitiva = Integer.parseInt(txtMinCompetitiva.getText());
+        int maxCompetitiva = Integer.parseInt(txtMaxCompetitiva.getText());
+        
+        if(minGeneral>maxGeneral||minEspecial>maxEspecial||minCompetitiva>maxCompetitiva){
+            JOptionPane.showMessageDialog(this,
+                        "Las cantidades minimas no pueden ser mayor a las máximas",
+                        "Datos invalidos", JOptionPane.ERROR_MESSAGE);
+                return false;
+        }
+        return true;
+    }
+
+    private void recuperarInfoMedio() {
+        
+        Medio medio = medios.get(medioSeleccionado);
+        
+        txtInstCompetitiva.setText(String.valueOf(medio.getEtapas().get(2).getInstanciasMedio()));
+        txtInstEspecial.setText(String.valueOf(medio.getEtapas().get(1).getInstanciasMedio()));
+        txtInstGeneral.setText(String.valueOf(medio.getEtapas().get(0).getInstanciasMedio()));
+        txtMaxCompetitiva.setText(String.valueOf(medio.getEtapas().get(2).getVolMax()));
+        txtMaxEspecial.setText(String.valueOf(medio.getEtapas().get(1).getVolMax()));
+        txtMaxGeneral.setText(String.valueOf(medio.getEtapas().get(0).getVolMax()));
+        txtMedicion.setText(medio.getMedicion());
+        txtMedio.setText(medio.getMedio());
+        txtMinCompetitiva.setText(String.valueOf(medio.getEtapas().get(2).getVolMin()));
+        txtMinEspecial.setText(String.valueOf(medio.getEtapas().get(1).getVolMin()));
+        txtMinGeneral.setText(String.valueOf(medio.getEtapas().get(0).getVolMin()));
+    }
 }

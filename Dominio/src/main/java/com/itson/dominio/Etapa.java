@@ -13,9 +13,9 @@ public class Etapa {
     private int totalSemanas;
     private List<Mesociclo> mesociclos;
     private double volumen;
-    private double volMin;
-    private double volMax;
-    private double instanciasMedio;
+    private int volMin;
+    private int volMax;
+    private int instanciasMedio;
     
     public Etapa(String nombre, int totalSemanas, List<Mesociclo> mesociclos) {
         this.nombre = nombre;
@@ -87,7 +87,7 @@ public class Etapa {
         return volMin;
     }
 
-    public void setVolMin(double volMin) {
+    public void setVolMin(int volMin) {
         this.volMin = volMin;
     }
 
@@ -95,7 +95,7 @@ public class Etapa {
         return volMax;
     }
 
-    public void setVolMax(double volMax) {
+    public void setVolMax(int volMax) {
         this.volMax = volMax;
     }
 
@@ -103,7 +103,7 @@ public class Etapa {
         return instanciasMedio;
     }
 
-    public void setInstanciasMedio(double instanciasMedio) {
+    public void setInstanciasMedio(int instanciasMedio) {
         this.instanciasMedio = instanciasMedio;
     }
 

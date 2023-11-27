@@ -125,6 +125,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
         btnEditarEtapas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEditarEtapas.setForeground(new java.awt.Color(255, 255, 255));
         btnEditarEtapas.setText("Definir etapas");
+        btnEditarEtapas.setEnabled(false);
         btnEditarEtapas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarEtapasActionPerformed(evt);
@@ -147,6 +148,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
         btnAñadirMedios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAñadirMedios.setForeground(new java.awt.Color(255, 255, 255));
         btnAñadirMedios.setText("Añadir medios físicos");
+        btnAñadirMedios.setEnabled(false);
         btnAñadirMedios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAñadirMediosActionPerformed(evt);
@@ -232,6 +234,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
     private void btnIngresarFechasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarFechasActionPerformed
         FrmIngresarFechas frmIngresarFechas = new FrmIngresarFechas(this);
         frmIngresarFechas.setVisible(true);
+        btnEditarEtapas.setEnabled(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnIngresarFechasActionPerformed
 
@@ -239,6 +242,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
         System.out.println("Esto le estoy mandado a definir etapas: "+semanasEtapas);
         DefinirEtapas definirEtapas = new DefinirEtapas(semanasEtapas);
         definirEtapas.setVisible(true);
+        btnAñadirMedios.setEnabled(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarEtapasActionPerformed
 
@@ -285,9 +289,13 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnAñadirMediosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirMediosActionPerformed
-
+        if(regimen.getEtapas()==null){
+            JOptionPane.showMessageDialog(this,
+                    "Debe definir las etapas de entrenamiento",
+                    "Datos incompletos", JOptionPane.INFORMATION_MESSAGE);
+        }
         FrmAñadirMedio añadirMedio = new FrmAñadirMedio(regimen.getEtapas());
-        añadirMedio.setVisible(true);
+        añadirMedio.setVisible(true); 
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAñadirMediosActionPerformed
 
@@ -298,6 +306,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
 
     public static void setEtapasRegimen(List<Etapa> etapas) {
         regimen.setEtapas(etapas);
+        
     }
     
     public static void setMediosRegimen(List<Medio>medios){
