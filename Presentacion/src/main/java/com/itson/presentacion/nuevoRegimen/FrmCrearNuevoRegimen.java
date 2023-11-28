@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
@@ -234,6 +235,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
     private void btnIngresarFechasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarFechasActionPerformed
         FrmIngresarFechas frmIngresarFechas = new FrmIngresarFechas(this);
         frmIngresarFechas.setVisible(true);
+        frmIngresarFechas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         btnEditarEtapas.setEnabled(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnIngresarFechasActionPerformed
@@ -242,6 +244,7 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
         System.out.println("Esto le estoy mandado a definir etapas: "+semanasEtapas);
         DefinirEtapas definirEtapas = new DefinirEtapas(semanasEtapas);
         definirEtapas.setVisible(true);
+        definirEtapas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         btnAñadirMedios.setEnabled(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarEtapasActionPerformed
@@ -294,7 +297,8 @@ public class FrmCrearNuevoRegimen extends javax.swing.JFrame {
                     "Debe definir las etapas de entrenamiento",
                     "Datos incompletos", JOptionPane.INFORMATION_MESSAGE);
         }
-        FrmAñadirMedio añadirMedio = new FrmAñadirMedio(regimen.getEtapas());
+        FrmAñadirMedio añadirMedio = new FrmAñadirMedio(regimen.getEtapas(),regimen.getMedios());
+        añadirMedio.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         añadirMedio.setVisible(true); 
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAñadirMediosActionPerformed

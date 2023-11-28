@@ -8,6 +8,7 @@ import com.itson.dominio.TipoUsuario;
 import com.itson.dominio.Usuario;
 import com.itson.presentacion.nuevoRegimen.FrmCrearNuevoRegimen;
 import com.itson.presentacion.nuevoRegimen.VistaPorMesociclo;
+import javax.swing.JFrame;
 
 public class FrmPrincipal extends javax.swing.JFrame {
     VistaPorMesociclo vistaMesociclo = new VistaPorMesociclo();
@@ -124,6 +125,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         Usuario usuario= new Usuario(1,"Carlos", "4321", TipoUsuario.ENTRENADOR);//usuario de prueba, TODO:lOGIN
         FrmCrearNuevoRegimen frmCrearNuevoRegimen= new FrmCrearNuevoRegimen(usuario);
+        frmCrearNuevoRegimen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmCrearNuevoRegimen.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCrearNuevoRegimenActionPerformed

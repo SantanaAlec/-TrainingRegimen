@@ -83,7 +83,7 @@ public class Etapa {
         this.volumen = volumen;
     }
 
-    public double getVolMin() {
+    public int getVolMin() {
         return volMin;
     }
 
@@ -91,7 +91,7 @@ public class Etapa {
         this.volMin = volMin;
     }
 
-    public double getVolMax() {
+    public int getVolMax() {
         return volMax;
     }
 
@@ -99,7 +99,7 @@ public class Etapa {
         this.volMax = volMax;
     }
 
-    public double getInstanciasMedio() {
+    public int getInstanciasMedio() {
         return instanciasMedio;
     }
 
