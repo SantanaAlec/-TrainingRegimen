@@ -8,17 +8,21 @@ import com.itson.dominio.TipoUsuario;
 import com.itson.dominio.Usuario;
 import com.itson.presentacion.nuevoRegimen.FrmCrearNuevoRegimen;
 import com.itson.presentacion.nuevoRegimen.VistaPorMesociclo;
+import implementaciones.Persistencia;
+import interfaces.IPersistencia;
 import javax.swing.JFrame;
 
 public class FrmPrincipal extends javax.swing.JFrame {
     VistaPorMesociclo vistaMesociclo = new VistaPorMesociclo();
+    private IPersistencia persistencia;
     /**
      * Creates new form FrmNuevoRegimen
      */
     public FrmPrincipal() {
         initComponents();
+        persistencia = new Persistencia();
         jTabbedPane2.setComponentAt(1,vistaMesociclo);
-        vistaMesociclo.llenarTablaDesdeJSON("regimen.json");
+        vistaMesociclo.llenarTablaDesdeJSON(persistencia);
     }
 
     

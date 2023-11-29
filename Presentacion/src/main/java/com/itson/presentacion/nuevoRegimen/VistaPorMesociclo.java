@@ -12,7 +12,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.itson.dominio.Etapa;
+import com.itson.dominio.Medio;
+import com.itson.dominio.Mesociclo;
+import com.itson.dominio.Regimen;
+import implementaciones.Persistencia;
+import interfaces.IPersistencia;
 import java.io.FileReader;
+import java.util.List;
 
 public class VistaPorMesociclo extends javax.swing.JPanel {
 
@@ -20,38 +27,35 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
     private double totalVolumen;
     private int filas = 1;
     boolean columnasAgregadas = false;
-
+    private Regimen regimen;
+    
     public VistaPorMesociclo() {
         initComponents();
         tableModel = (DefaultTableModel) tbtMesociclos.getModel();
-
+        
     }
 
-    public void llenarTablaDesdeJSON(String filePath) {
+    public void llenarTablaDesdeJSON(IPersistencia persistencia) {
         tableModel.setRowCount(0);
+        
+        try {
+            regimen= persistencia.consultarRegimen();
+            List<Medio> medios = regimen.getMedios();
 
-        try (FileReader reader = new FileReader(filePath)) {
-            JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
-            JsonArray medios = jsonObject.getAsJsonArray("medios");
-
-            for (JsonElement medioElement : medios) {
-                JsonObject medio = medioElement.getAsJsonObject();
-                String nombreMedio = medio.get("medio").getAsString();
-                String primer = medio.get("medio").getAsString() + "(" + medio.get("medicion").getAsString() + ")";
+            for (Medio medio : medios) {
+                String nombreMedio = medio.getMedio();
+                String primer = nombreMedio+ "(" + medio.getMedicion() + ")";
 
                 // Calcular el totalVolumen específico para cada "medio"
                 double totalVolumen = calcularTotalVolumen(medio);
                 Object[] rowDataMedios = {primer, totalVolumen};
                 tableModel.addRow(rowDataMedios);
             }
-            JsonArray etapas = jsonObject.getAsJsonArray("etapas");
-                for (JsonElement etapaElement : etapas) {
-                    JsonObject etapa = etapaElement.getAsJsonObject();
-                    JsonArray mesociclos = etapa.getAsJsonArray("mesociclos");
-                    for (JsonElement mesocicloElement : mesociclos) {
-                    JsonObject mesociclo = mesocicloElement.getAsJsonObject();
+            List<Etapa> etapas = regimen.getEtapas();
+                for (Etapa etapa : etapas) {
+                    List<Mesociclo> mesociclos = etapa.getMesociclos();
+                    for (Mesociclo mesociclo : mesociclos) {
                     llenarPorcentajesVol(mesociclo);
-
                 }
             }
             columnasAgregadas = true;
@@ -60,24 +64,24 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
         }
     }
 
-    private double calcularTotalVolumen(JsonObject mesociclos) {
+    private double calcularTotalVolumen(Medio medio) {
         double totalVolumen = 0.0;
 
-        JsonArray etapas = mesociclos.getAsJsonArray("etapas");
+        List<Etapa> etapas = medio.getEtapas();
 
-        for (JsonElement etapaElement : etapas) {
-            JsonObject etapa = etapaElement.getAsJsonObject();
-            double volumenEtapa = etapa.get("volumen").getAsDouble();
+        for (Etapa etapa : etapas) {
+
+            double volumenEtapa = etapa.getVolumen();
             totalVolumen += volumenEtapa;
         }
 
         return totalVolumen;
     }
    
-    private boolean llenarPorcentajesVol(JsonObject mesociclo) {
+    private boolean llenarPorcentajesVol(Mesociclo mesociclo) {
         int numRows = tableModel.getRowCount();
 
-        int noMesociclo = mesociclo.get("noMesociclo").getAsInt();
+        int noMesociclo = mesociclo.getNoMesociclo();
         if (columnasAgregadas == false) {
             tableModel.addColumn("Mesociclo ");
             tableModel.addColumn("Vol");
