@@ -11,7 +11,7 @@ public class Mesociclo {
     private int noMesociclo;
     private int noSemanas;
     private double volumen;
-    private double porcentaje;
+    private int porcentaje;
 
     public Mesociclo(int noMesociclo,int noSemanas) {
         this.noMesociclo = noMesociclo;
@@ -75,11 +75,11 @@ public class Mesociclo {
         this.volumen = volumen;
     }
 
-    public double getPorcentaje() {
+    public int getPorcentaje() {
         return porcentaje;
     }
 
-    public void setPorcentaje(double porcentaje) {
+    public void setPorcentaje(int porcentaje) {
         this.porcentaje = porcentaje;
     }
 

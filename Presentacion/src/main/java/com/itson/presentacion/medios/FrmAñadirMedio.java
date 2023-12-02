@@ -414,6 +414,7 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
         etapaGeneral.setVolMax(maxGeneral);
         etapaGeneral.setInstanciasMedio(instGeneral);
         etapaGeneral.setVolumen(volGeneral);
+        etapaGeneral.setMesociclos(etapas.get(0).getMesociclos());
         etapasNuevas.add(etapaGeneral);
 
         Etapa etapaEspecial = new Etapa("Epecial");
@@ -423,6 +424,7 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
         etapaEspecial.setVolMax(maxEspecial);
         etapaEspecial.setInstanciasMedio(instEspecial);
         etapaEspecial.setVolumen(volEspecial);
+        etapaEspecial.setMesociclos(etapas.get(1).getMesociclos());
         etapasNuevas.add(etapaEspecial);
 
         Etapa etapaCompetitiva = new Etapa("Competitiva");
@@ -432,6 +434,7 @@ public class FrmAñadirMedio extends javax.swing.JFrame {
         etapaCompetitiva.setVolMax(maxCompetitiva);
         etapaCompetitiva.setInstanciasMedio(instCompetitiva);
         etapaCompetitiva.setVolumen(volCompetitiva);
+        etapaCompetitiva.setMesociclos(etapas.get(2).getMesociclos());
         etapasNuevas.add(etapaCompetitiva);
 
         medioNuevo.setEtapas(etapasNuevas);

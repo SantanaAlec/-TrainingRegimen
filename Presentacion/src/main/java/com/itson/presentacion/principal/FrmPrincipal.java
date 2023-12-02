@@ -13,7 +13,7 @@ import interfaces.IPersistencia;
 import javax.swing.JFrame;
 
 public class FrmPrincipal extends javax.swing.JFrame {
-    VistaPorMesociclo vistaMesociclo = new VistaPorMesociclo();
+  
     private IPersistencia persistencia;
     /**
      * Creates new form FrmNuevoRegimen
@@ -21,8 +21,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public FrmPrincipal() {
         initComponents();
         persistencia = new Persistencia();
+        VistaPorMesociclo vistaMesociclo = new VistaPorMesociclo(persistencia);
         jTabbedPane2.setComponentAt(1,vistaMesociclo);
-        vistaMesociclo.llenarTablaDesdeJSON(persistencia);
+        vistaMesociclo.llenarTabla();
     }
 
     
@@ -76,8 +77,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jTabbedPane2.addTab("Mesociclos", jScrollPane2);
         jTabbedPane2.addTab("Microciclos", jScrollPane3);
 
-        lblEstadoRegimen.setText("jLabel1");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -85,7 +84,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(31, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -106,17 +105,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(lblEstadoRegimen))
+                    .addComponent(lblEstadoRegimen, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrearNuevoRegimen, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 430));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 440));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
