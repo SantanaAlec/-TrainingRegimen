@@ -11,10 +11,12 @@ import com.itson.presentacion.nuevoRegimen.VistaPorMesociclo;
 import implementaciones.Persistencia;
 import interfaces.IPersistencia;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 public class FrmPrincipal extends javax.swing.JFrame {
-  
+
     private IPersistencia persistencia;
+
     /**
      * Creates new form FrmNuevoRegimen
      */
@@ -22,11 +24,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         initComponents();
         persistencia = new Persistencia();
         VistaPorMesociclo vistaMesociclo = new VistaPorMesociclo(persistencia);
-        jTabbedPane2.setComponentAt(1,vistaMesociclo);
+        jTabbedPane2.setComponentAt(1, vistaMesociclo);
         vistaMesociclo.llenarTabla();
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -126,13 +127,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnCrearNuevoRegimenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoRegimenActionPerformed
 
-        Usuario usuario= new Usuario(1,"Carlos", "4321", TipoUsuario.ENTRENADOR);//usuario de prueba, TODO:lOGIN
-        FrmCrearNuevoRegimen frmCrearNuevoRegimen= new FrmCrearNuevoRegimen(usuario);
+        Usuario usuario = new Usuario(1, "Carlos", "4321", TipoUsuario.ENTRENADOR);//usuario de prueba, TODO:lOGIN
+        FrmCrearNuevoRegimen frmCrearNuevoRegimen = new FrmCrearNuevoRegimen(usuario);
         frmCrearNuevoRegimen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmCrearNuevoRegimen.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCrearNuevoRegimenActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */
@@ -160,7 +161,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+        try {
+            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatIntelliJLaf");
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
+        }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

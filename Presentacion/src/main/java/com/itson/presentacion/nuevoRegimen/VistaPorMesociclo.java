@@ -204,7 +204,7 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
         });
         tbtMesociclos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tbtMesociclos.setGridColor(new java.awt.Color(255, 255, 255));
-        tbtMesociclos.setSelectionBackground(new java.awt.Color(51, 153, 255));
+        tbtMesociclos.setSelectionBackground(new java.awt.Color(5, 109, 182));
         tbtMesociclos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbtMesociclos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbtMesociclos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -219,7 +219,7 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tbtMesociclos);
 
-        btnGuardar.setText("Guardar cambios");
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/guardar.png"))); // NOI18N
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -236,7 +236,7 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
                         .addGap(234, 234, 234)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGuardar))
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(35, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -245,13 +245,16 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(btnGuardar))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
