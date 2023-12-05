@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.LocalDateAdapter;
@@ -52,5 +53,37 @@ public class RegimenDAO implements IRegimenDAO {
         }
         return null;
     }
+     public void actualizar(Regimen regimen) throws Exception {
+         String existingJSONData= null;
+     try (FileReader fileReader = new FileReader("regimen.json");
+        Scanner scanner = new Scanner(fileReader)) {
+      StringBuilder jsonContent = new StringBuilder();
+      while (scanner.hasNextLine()) {
+        jsonContent.append(scanner.nextLine()).append("\n");
+      }
+      existingJSONData = jsonContent.toString();
+    } catch (IOException e) {
+      System.out.println("Error al leer el archivo regimen.json");
+    }
+
+    Gson gson = new GsonBuilder()
+        .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+        .create();
+    Regimen regimenActualizado = gson.fromJson(existingJSONData, Regimen.class);
+
+    regimenActualizado.setDeporte(regimen.getDeporte());
+    regimenActualizado.setRama(regimen.getRama());
+    regimenActualizado.setJefeRama(regimen.getJefeRama());
+    regimenActualizado.setMetodologo(regimen.getMetodologo());
+
+    String updatedJSONData = gson.toJson(regimenActualizado);
+
+    try (FileWriter file = new FileWriter("regimen.json")) {
+      file.write(updatedJSONData);
+      file.flush();
+    } catch (IOException e) {
+      System.out.println("Error al actualizar el archivo regimen.json");
+    }
+  }
 
 }

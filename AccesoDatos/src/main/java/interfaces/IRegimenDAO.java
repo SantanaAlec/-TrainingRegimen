@@ -9,4 +9,5 @@ import com.itson.dominio.Regimen;
 public interface IRegimenDAO {
     public void guardar(Regimen regimen) throws Exception;
     public Regimen consultar() throws Exception;
+    public void actualizar(Regimen regimen)throws Exception;
 }

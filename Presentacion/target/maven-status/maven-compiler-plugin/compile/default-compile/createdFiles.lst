@@ -1,3 +1,5 @@
+com\itson\presentacion\nuevoRegimen\VistaPorMesociclo$4.class
+com\itson\presentacion\nuevoRegimen\FrmCrearNuevoRegimen$5.class
 com\itson\presentacion\nuevoRegimen\DefinirEtapas$5.class
 com\itson\presentacion\nuevoRegimen\FrmIngresarFechas$3.class
 com\itson\presentacion\principal\Presentacion.class
@@ -12,6 +14,7 @@ com\itson\presentacion\medios\FrmAñadirMedio$1.class
 com\itson\presentacion\nuevoRegimen\FrmCrearNuevoRegimen$1.class
 com\itson\presentacion\nuevoRegimen\VistaPorMesociclo.class
 com\itson\presentacion\nuevoRegimen\FrmCrearNuevoRegimen$4.class
+com\itson\presentacion\nuevoRegimen\VistaPorMesociclo$3.class
 com\itson\presentacion\medios\FrmAñadirMedio.class
 com\itson\presentacion\medios\FrmPorcentajesMesociclos.class
 com\itson\presentacion\nuevoRegimen\DefinirMesociclo$1.class
@@ -26,6 +29,8 @@ com\itson\presentacion\medios\FrmAñadirMedio$2.class
 com\itson\presentacion\principal\FrmPrincipal$1.class
 com\itson\presentacion\nuevoRegimen\DefinirMesociclo$5.class
 com\itson\presentacion\nuevoRegimen\FrmIngresarFechas.class
+com\itson\presentacion\nuevoRegimen\VistaPorMesociclo$6.class
+com\itson\presentacion\nuevoRegimen\VistaPorMesociclo$2.class
 com\itson\presentacion\principal\FrmIniciarSesion$3.class
 com\itson\presentacion\nuevoRegimen\DefinirEtapas.class
 com\itson\presentacion\nuevoRegimen\DefinirMesociclo$2.class
@@ -35,6 +40,7 @@ com\itson\presentacion\nuevoRegimen\DefinirEtapas$4.class
 com\itson\presentacion\nuevoRegimen\VistaMesociclo$1.class
 com\itson\presentacion\nuevoRegimen\DefinirEtapas$7.class
 com\itson\presentacion\nuevoRegimen\VistaMesociclo.class
+com\itson\presentacion\nuevoRegimen\VistaPorMesociclo$5.class
 com\itson\presentacion\medios\FrmAñadirMedio$3.class
 com\itson\presentacion\nuevoRegimen\DefinirEtapas$1.class
 com\itson\presentacion\nuevoRegimen\DefinirMesociclo$6.class

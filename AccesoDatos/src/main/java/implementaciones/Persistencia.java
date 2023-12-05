@@ -103,5 +103,8 @@ public class Persistencia implements IPersistencia{
     public List<Usuario> consultarEntrenadores() throws Exception {
         return usuariosDAO.consultarEntrenadores();
     }
-    
+     @Override
+    public void actualizarRegimen(Regimen regimen) throws Exception {
+        regimenDAO.actualizar(regimen);
+    }
 }

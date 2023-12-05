@@ -10,6 +10,8 @@ import com.itson.presentacion.nuevoRegimen.FrmCrearNuevoRegimen;
 import com.itson.presentacion.nuevoRegimen.VistaPorMesociclo;
 import implementaciones.Persistencia;
 import interfaces.IPersistencia;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
@@ -24,8 +26,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         initComponents();
         persistencia = new Persistencia();
         VistaPorMesociclo vistaMesociclo = new VistaPorMesociclo(persistencia);
-        jTabbedPane2.setComponentAt(1, vistaMesociclo);
+        tblPanel.setComponentAt(1, vistaMesociclo);
         vistaMesociclo.llenarTabla();
+        //resizePanel();
     }
 
     /**
@@ -38,20 +41,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane3 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
         btnCrearNuevoRegimen = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        tblPanel = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        panelMesosiclos = new javax.swing.JScrollPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         lblEstadoRegimen = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         btnCrearNuevoRegimen.setBackground(new java.awt.Color(5, 109, 182));
         btnCrearNuevoRegimen.setForeground(new java.awt.Color(255, 255, 255));
@@ -74,61 +77,72 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(5, 109, 182));
         jLabel2.setText("Estado regimen seleccionado:");
 
-        jTabbedPane2.addTab("Macrociclo", jScrollPane1);
-        jTabbedPane2.addTab("Mesociclos", jScrollPane2);
-        jTabbedPane2.addTab("Microciclos", jScrollPane3);
+        tblPanel.addTab("Macrociclo", jScrollPane1);
+        tblPanel.addTab("Mesociclos", panelMesosiclos);
+        tblPanel.addTab("Microciclos", jScrollPane3);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(btnCrearNuevoRegimen)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblEstadoRegimen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(32, 32, 32))
+        lblEstadoRegimen.setText("No aprovado");
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblEstadoRegimen, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                            .addComponent(btnCrearNuevoRegimen)
+                            .addGap(1150, 1150, 1150)
+                            .addComponent(jButton2))
+                        .addComponent(tblPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1398, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(471, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblEstadoRegimen, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrearNuevoRegimen, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addComponent(tblPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 963, Short.MAX_VALUE)
+                .addContainerGap(716, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 440));
+        getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1900, 1820));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+       Usuario usuario= new Usuario(1,"Carlos", "4321", TipoUsuario.ENTRENADOR);
+        FrmCrearNuevoRegimen frm = new FrmCrearNuevoRegimen (usuario);
+        frm.btnIngresarFechas.setVisible(false);
+        frm.btnEditarEtapas.setVisible(false);
+        frm.btnAñadirMedios.setVisible(false);
+        frm.btnActualizar.setVisible(true);
+        frm.btnCrear.setVisible(false);
+        frm.lblTitulo.setText("Actualizar Regimén");
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setResizable(false);
+        frm.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnCrearNuevoRegimenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoRegimenActionPerformed
 
         Usuario usuario = new Usuario(1, "Carlos", "4321", TipoUsuario.ENTRENADOR);//usuario de prueba, TODO:lOGIN
         FrmCrearNuevoRegimen frmCrearNuevoRegimen = new FrmCrearNuevoRegimen(usuario);
+        frmCrearNuevoRegimen.btnActualizar.setVisible(false);
+        frmCrearNuevoRegimen.setResizable(false);
         frmCrearNuevoRegimen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmCrearNuevoRegimen.setVisible(true);
         // TODO add your handling code here:
@@ -173,17 +187,37 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
     }
+    
+//    public void resizePanel(){
+//         // Agregar un ComponentListener al frame
+//        addComponentListener(new ComponentAdapter() {
+//            @Override
+//            public void componentResized(ComponentEvent e) {
+//                // Este método se llama cuando el frame cambia de tamaño
+//                // Obtener las nuevas dimensiones del frame
+//                int nuevoAncho = getWidth();
+//                int nuevoAlto = getHeight();
+//
+//                // Establecer el nuevo tamaño del panel
+//                mainPanel.setSize(nuevoAncho, nuevoAlto);
+//                tblPanel.setSize(nuevoAncho-20, tblPanel.getHeight());
+//                panelMesosiclos.setSize(nuevoAncho-20, tblPanel.getHeight());
+//                // Repintar el panel
+//                mainPanel.repaint();
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearNuevoRegimen;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JLabel lblEstadoRegimen;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JScrollPane panelMesosiclos;
+    private javax.swing.JTabbedPane tblPanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,6 +18,8 @@ import com.itson.dominio.Mesociclo;
 import com.itson.dominio.Regimen;
 import implementaciones.Persistencia;
 import interfaces.IPersistencia;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
         initComponents();
         columnasEditables = new ArrayList<Integer>();
         crearModeloTabla();
-        this.persistencia=persistencia;
+        this.persistencia = persistencia;
 
     }
 
@@ -51,32 +53,35 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
 
         try {
             regimen = persistencia.consultarRegimen();
-            medios = regimen.getMedios();
+            if (regimen != null) {
+                medios = regimen.getMedios();
 
-            for (Medio medio : medios) {
-                String nombreMedio = medio.getMedio();
-                String primer = nombreMedio + "(" + medio.getMedicion() + ")";
+                for (Medio medio : medios) {
+                    String nombreMedio = medio.getMedio();
+                    String primer = nombreMedio + "(" + medio.getMedicion() + ")";
 
-                // Calcular el totalVolumen específico para cada "medio"
-                double totalVolumen = calcularTotalVolumen(medio);
-                medio.setVolumenTotal(totalVolumen);
-                Object[] rowDataMedios = {primer, totalVolumen};
-                tableModel.addRow(rowDataMedios);
-            }
-            List<Etapa> etapas = regimen.getEtapas();
-            int noEtapa = 0;
-
-            for (Etapa etapa : etapas) {
-                int indexMeso = 0;
-                List<Mesociclo> mesociclos = etapa.getMesociclos();
-                for (Mesociclo mesociclo : mesociclos) {
-                    llenarPorcentajesVol(mesociclo, noEtapa, indexMeso);
-
-                    indexMeso++;
+                    // Calcular el totalVolumen específico para cada "medio"
+                    double totalVolumen = calcularTotalVolumen(medio);
+                    medio.setVolumenTotal(totalVolumen);
+                    Object[] rowDataMedios = {primer, totalVolumen};
+                    tableModel.addRow(rowDataMedios);
                 }
-                noEtapa++;
+                List<Etapa> etapas = regimen.getEtapas();
+                int noEtapa = 0;
+
+                for (Etapa etapa : etapas) {
+                    int indexMeso = 0;
+                    List<Mesociclo> mesociclos = etapa.getMesociclos();
+                    for (Mesociclo mesociclo : mesociclos) {
+                        llenarPorcentajesVol(mesociclo, noEtapa, indexMeso);
+
+                        indexMeso++;
+                    }
+                    noEtapa++;
+                }
+                columnasAgregadas = true;
             }
-            columnasAgregadas = true;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,7 +120,7 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
             tableModel.setValueAt(noMesociclo, i, tableModel.getColumnCount() - 3);//no. de meso
             tableModel.setValueAt(mesoDeMedio.getVolumen(), i, tableModel.getColumnCount() - 2);// volumen de meso
             tableModel.setValueAt(mesoDeMedio.getPorcentaje(), i, tableModel.getColumnCount() - 1);// porcentaje
-            
+
         }
         return columnasAgregadas;
     }
@@ -178,6 +183,7 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbtMesociclos = new javax.swing.JTable();
         btnGuardar = new javax.swing.JButton();
+        btnRecargar = new javax.swing.JButton();
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(5, 109, 182));
@@ -226,35 +232,40 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
             }
         });
 
+        btnRecargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recargar.png"))); // NOI18N
+        btnRecargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecargarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(234, 234, 234)
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(1081, 1081, 1081)
+                        .addComponent(btnRecargar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(35, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1389, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(btnRecargar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(297, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -278,6 +289,11 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void btnRecargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecargarActionPerformed
+        llenarTabla();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRecargarActionPerformed
+
     public void modificarPorcentajes() {
         int columnaSelec = tbtMesociclos.getSelectedColumn();
         int filaSelec = tbtMesociclos.getSelectedRow();
@@ -293,24 +309,24 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
                 double volumenDelMeso = (medios.get(filaSelec).getVolumenTotal() / sumPorcentajes) * porcentajeIntroducido;
 
                 tbtMesociclos.setValueAt(volumenDelMeso, filaSelec, indexPorcentaje - 1);
-                
+
             } else {
                 tbtMesociclos.setValueAt(0, filaSelec, columnaSelec);
             }
         }
-        
+
     }
-    
-    public void guardarCambiosPorcentajes() throws Exception{
-        int noMedio=0;
+
+    public void guardarCambiosPorcentajes() throws Exception {
+        int noMedio = 0;
         for (Medio medio : medios) {
-            int noMeso=0;
-        
+            int noMeso = 0;
+
             for (Etapa etapa : medio.getEtapas()) {
                 List<Mesociclo> mesociclos = etapa.getMesociclos();
                 for (Mesociclo mesociclo : mesociclos) {
                     int porcentaje = (Integer) tbtMesociclos.getValueAt(noMedio, columnasEditables.get(noMeso));
-                    double volumen = (Double) tbtMesociclos.getValueAt(noMedio, columnasEditables.get(noMeso)-1);
+                    double volumen = (Double) tbtMesociclos.getValueAt(noMedio, columnasEditables.get(noMeso) - 1);
                     mesociclo.setPorcentaje(porcentaje);
                     mesociclo.setVolumen(volumen);
                     noMeso++;
@@ -323,8 +339,10 @@ public class VistaPorMesociclo extends javax.swing.JPanel {
 
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnRecargar;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbtMesociclos;

@@ -1,11 +1,11 @@
-C:\Users\Andrea\Documents\Proyecto metodos agiles\AccesoDatos\src\main\java\implementaciones\RegimenEstadoDAO.java
-C:\Users\Andrea\Documents\Proyecto metodos agiles\AccesoDatos\src\main\java\interfaces\IConexionBD.java
-C:\Users\Andrea\Documents\Proyecto metodos agiles\AccesoDatos\src\main\java\utils\LocalDateAdapter.java
-C:\Users\Andrea\Documents\Proyecto metodos agiles\AccesoDatos\src\main\java\interfaces\IRegimenDAO.java
-C:\Users\Andrea\Documents\Proyecto metodos agiles\AccesoDatos\src\main\java\implementaciones\Persistencia.java
-C:\Users\Andrea\Documents\Proyecto metodos agiles\AccesoDatos\src\main\java\interfaces\IPersistencia.java
-C:\Users\Andrea\Documents\Proyecto metodos agiles\AccesoDatos\src\main\java\implementaciones\UsuariosDAO.java
-C:\Users\Andrea\Documents\Proyecto metodos agiles\AccesoDatos\src\main\java\implementaciones\ConexionBD.java
-C:\Users\Andrea\Documents\Proyecto metodos agiles\AccesoDatos\src\main\java\implementaciones\RegimenDAO.java
-C:\Users\Andrea\Documents\Proyecto metodos agiles\AccesoDatos\src\main\java\interfaces\IRegimenEstadoDAO.java
-C:\Users\Andrea\Documents\Proyecto metodos agiles\AccesoDatos\src\main\java\interfaces\IUsuariosDAO.java
+C:\Users\Andrea\Documents\proyecto agiles_vFinal\accesoADatos\AccesoDatos\src\main\java\interfaces\IRegimenEstadoDAO.java
+C:\Users\Andrea\Documents\proyecto agiles_vFinal\accesoADatos\AccesoDatos\src\main\java\interfaces\IUsuariosDAO.java
+C:\Users\Andrea\Documents\proyecto agiles_vFinal\accesoADatos\AccesoDatos\src\main\java\implementaciones\UsuariosDAO.java
+C:\Users\Andrea\Documents\proyecto agiles_vFinal\accesoADatos\AccesoDatos\src\main\java\implementaciones\ConexionBD.java
+C:\Users\Andrea\Documents\proyecto agiles_vFinal\accesoADatos\AccesoDatos\src\main\java\implementaciones\Persistencia.java
+C:\Users\Andrea\Documents\proyecto agiles_vFinal\accesoADatos\AccesoDatos\src\main\java\interfaces\IPersistencia.java
+C:\Users\Andrea\Documents\proyecto agiles_vFinal\accesoADatos\AccesoDatos\src\main\java\utils\LocalDateAdapter.java
+C:\Users\Andrea\Documents\proyecto agiles_vFinal\accesoADatos\AccesoDatos\src\main\java\interfaces\IRegimenDAO.java
+C:\Users\Andrea\Documents\proyecto agiles_vFinal\accesoADatos\AccesoDatos\src\main\java\implementaciones\RegimenDAO.java
+C:\Users\Andrea\Documents\proyecto agiles_vFinal\accesoADatos\AccesoDatos\src\main\java\interfaces\IConexionBD.java
+C:\Users\Andrea\Documents\proyecto agiles_vFinal\accesoADatos\AccesoDatos\src\main\java\implementaciones\RegimenEstadoDAO.java
